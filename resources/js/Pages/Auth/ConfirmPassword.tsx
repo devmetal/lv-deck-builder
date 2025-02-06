@@ -1,10 +1,7 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, useForm } from "@inertiajs/react";
-import { FormEventHandler } from "react";
+import { Form } from "radix-ui";
+import type { FormEventHandler } from "react";
 
 export default function ConfirmPassword() {
 	const { data, setData, post, processing, errors, reset } = useForm({
@@ -23,34 +20,33 @@ export default function ConfirmPassword() {
 		<GuestLayout>
 			<Head title="Confirm Password" />
 
-			<div className="mb-4 text-sm text-gray-600">
+			<div>
 				This is a secure area of the application. Please confirm your password
 				before continuing.
 			</div>
 
-			<form onSubmit={submit}>
-				<div className="mt-4">
-					<InputLabel htmlFor="password" value="Password" />
+			<Form.Root onSubmit={submit}>
+				<Form.Field name="password">
+					<Form.Label>Password</Form.Label>
 
-					<TextInput
-						id="password"
-						type="password"
-						name="password"
-						value={data.password}
-						className="mt-1 block w-full"
-						isFocused={true}
-						onChange={(e) => setData("password", e.target.value)}
-					/>
+					<Form.Control asChild>
+						<input
+							required
+							id="password"
+							type="password"
+							name="password"
+							value={data.password}
+							onChange={(e) => setData("password", e.currentTarget.value)}
+						/>
+					</Form.Control>
 
-					<InputError message={errors.password} className="mt-2" />
-				</div>
+					{errors.password && <Form.Message>{errors.password}</Form.Message>}
 
-				<div className="mt-4 flex items-center justify-end">
-					<PrimaryButton className="ms-4" disabled={processing}>
-						Confirm
-					</PrimaryButton>
-				</div>
-			</form>
+					<Form.Message match="valueMissing">Provide a password</Form.Message>
+				</Form.Field>
+
+				<Form.Submit disabled={processing}>Confirm</Form.Submit>
+			</Form.Root>
 		</GuestLayout>
 	);
 }

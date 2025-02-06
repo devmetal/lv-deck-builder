@@ -1,10 +1,7 @@
-import InputError from "@/Components/InputError";
-import InputLabel from "@/Components/InputLabel";
-import PrimaryButton from "@/Components/PrimaryButton";
-import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Layouts/GuestLayout";
 import { Head, useForm } from "@inertiajs/react";
-import { FormEventHandler } from "react";
+import { Form } from "radix-ui";
+import type { FormEventHandler } from "react";
 
 export default function ResetPassword({
 	token,
@@ -33,56 +30,75 @@ export default function ResetPassword({
 			<Head title="Reset Password" />
 
 			<form onSubmit={submit}>
-				<div>
-					<InputLabel htmlFor="email" value="Email" />
+				<Form.Field name="email">
+					<Form.Label>Email</Form.Label>
 
-					<TextInput
-						id="email"
-						type="email"
-						name="email"
-						value={data.email}
-						className="mt-1 block w-full"
-						autoComplete="username"
-						onChange={(e) => setData("email", e.target.value)}
-					/>
+					<Form.Control asChild>
+						<input
+							required
+							type="email"
+							value={data.email}
+							autoComplete="username"
+							name="email"
+							id="email"
+							onChange={(e) => setData("email", e.currentTarget.value)}
+						/>
+					</Form.Control>
 
-					<InputError message={errors.email} className="mt-2" />
-				</div>
+					{errors.email && <Form.Message>{errors.email}</Form.Message>}
 
-				<div className="mt-4">
-					<InputLabel htmlFor="password" value="Password" />
+					<Form.Message match="valueMissing">
+						Provide an email address
+					</Form.Message>
 
-					<TextInput
-						id="password"
-						type="password"
-						name="password"
-						value={data.password}
-						className="mt-1 block w-full"
-						autoComplete="new-password"
-						isFocused={true}
-						onChange={(e) => setData("password", e.target.value)}
-					/>
+					<Form.Message match="typeMismatch">
+						Provide a valid email address
+					</Form.Message>
+				</Form.Field>
 
-					<InputError message={errors.password} className="mt-2" />
-				</div>
+				<Form.Field name="password">
+					<Form.Label>Password</Form.Label>
 
-				<div className="mt-4">
-					<InputLabel
-						htmlFor="password_confirmation"
-						value="Confirm Password"
-					/>
+					<Form.Control asChild>
+						<input
+							required
+							id="password"
+							type="password"
+							name="password"
+							value={data.password}
+							onChange={(e) => setData("password", e.currentTarget.value)}
+						/>
+					</Form.Control>
 
-					<TextInput
-						type="password"
-						name="password_confirmation"
-						value={data.password_confirmation}
-						className="mt-1 block w-full"
-						autoComplete="new-password"
-						onChange={(e) => setData("password_confirmation", e.target.value)}
-					/>
+					{errors.password && <Form.Message>{errors.password}</Form.Message>}
 
-					<InputError message={errors.password_confirmation} className="mt-2" />
-				</div>
+					<Form.Message match="valueMissing">Provide a password</Form.Message>
+				</Form.Field>
+
+				<Form.Field name="password_confirmation">
+					<Form.Label>Confirm Password</Form.Label>
+
+					<Form.Control asChild>
+						<input
+							required
+							type="password"
+							name="password_confirmation"
+							id="password_confirmation"
+							value={data.password_confirmation}
+							onChange={(e) =>
+								setData("password_confirmation", e.currentTarget.value)
+							}
+						/>
+					</Form.Control>
+
+					{errors.password_confirmation && (
+						<Form.Message>{errors.password_confirmation}</Form.Message>
+					)}
+
+					<Form.Message match="valueMissing">
+						Confirm your password
+					</Form.Message>
+				</Form.Field>
 
 				<div className="mt-4 flex items-center justify-end">
 					<PrimaryButton className="ms-4" disabled={processing}>
