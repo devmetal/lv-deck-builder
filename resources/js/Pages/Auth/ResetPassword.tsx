@@ -100,11 +100,7 @@ export default function ResetPassword({
           </Form.Message>
         </Form.Field>
 
-        <div className="mt-4 flex items-center justify-end">
-          <PrimaryButton className="ms-4" disabled={processing}>
-            Reset Password
-          </PrimaryButton>
-        </div>
+        <Form.Submit disabled={processing}>Rset password</Form.Submit>
       </form>
     </GuestLayout>
   );
