@@ -5,7 +5,8 @@
         "build": "tsc && vite build",
         "lint": "eslint resources/js --ext .js,.jsx,.ts,.tsx --ignore-path .gitignore --fix",
         "format": "prettier resources/ --write",
-        "dev": "vite"
+        "dev": "vite",
+        "ts:check": "tsc --noEmit"
     },
     "devDependencies": {
         "@eslint/compat": "^1.2.6",
@@ -29,6 +30,7 @@
         "eslint-plugin-react-hooks": "^5.1.0",
         "globals": "^15.14.0",
         "laravel-vite-plugin": "^1.2.0",
+        "motion": "^12.4.0",
         "postcss": "^8.4.31",
         "prettier": "^3.4.2",
         "prettier-plugin-organize-imports": "^4.0.0",
