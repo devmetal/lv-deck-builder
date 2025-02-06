@@ -1,9 +1,8 @@
+import { PageProps } from '@/types';
 import { Link, usePage } from '@inertiajs/react';
 import { CaretDownIcon } from '@radix-ui/react-icons';
 import { NavigationMenu } from 'radix-ui';
 import { type PropsWithChildren, ReactNode } from 'react';
-
-type PageProps = { auth: { user: { name: string; email: string } } };
 
 export default function Authenticated({
   header,
@@ -35,7 +34,7 @@ export default function Authenticated({
                 <NavigationMenu.Item>
                   <NavigationMenu.Link asChild>
                     <Link href={route('logout')} as="button" method="post">
-                      Profile
+                      Logout
                     </Link>
                   </NavigationMenu.Link>
                 </NavigationMenu.Item>
