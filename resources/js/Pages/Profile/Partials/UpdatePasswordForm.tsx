@@ -1,15 +1,9 @@
-import InputError from '@/Components/InputError';
-import InputLabel from '@/Components/InputLabel';
-import PrimaryButton from '@/Components/PrimaryButton';
-import TextInput from '@/Components/TextInput';
 import { useForm } from '@inertiajs/react';
-import { FormEventHandler, useRef } from 'react';
+import { AnimatePresence, motion } from 'motion/react';
+import { Form } from 'radix-ui';
+import { type FormEventHandler, useRef } from 'react';
 
-export default function UpdatePasswordForm({
-  className = '',
-}: {
-  className?: string;
-}) {
+export default function UpdatePasswordForm() {
   const passwordInput = useRef<HTMLInputElement>(null);
   const currentPasswordInput = useRef<HTMLInputElement>(null);
 
@@ -41,80 +35,97 @@ export default function UpdatePasswordForm({
   };
 
   return (
-    <section className={className}>
+    <section>
       <header>
-        <h2 className="text-lg font-medium text-gray-900">Update Password</h2>
+        <h2>Update Password</h2>
 
-        <p className="mt-1 text-sm text-gray-600">
+        <p>
           Ensure your account is using a long, random password to stay secure.
         </p>
       </header>
 
-      <form onSubmit={updatePassword} className="mt-6 space-y-6">
+      <Form.Root onSubmit={updatePassword}>
+        <Form.Field name="current_password">
+          <Form.Label>Current Password</Form.Label>
+
+          <Form.Control asChild>
+            <input
+              required
+              id="current_password"
+              type="password"
+              name="current_password"
+              value={data.current_password}
+              onChange={(e) =>
+                setData('current_password', e.currentTarget.value)
+              }
+            />
+          </Form.Control>
+
+          {errors.password && <Form.Message>{errors.password}</Form.Message>}
+
+          <Form.Message match="valueMissing">Provide a password</Form.Message>
+        </Form.Field>
+
+        <Form.Field name="password">
+          <Form.Label>New Password</Form.Label>
+
+          <Form.Control asChild>
+            <input
+              required
+              id="password"
+              type="password"
+              name="password"
+              value={data.password}
+              onChange={(e) => setData('password', e.currentTarget.value)}
+            />
+          </Form.Control>
+
+          {errors.password && <Form.Message>{errors.password}</Form.Message>}
+
+          <Form.Message match="valueMissing">Provide a password</Form.Message>
+        </Form.Field>
+
+        <Form.Field name="password_confirmation">
+          <Form.Label>Confirm Password</Form.Label>
+
+          <Form.Control asChild>
+            <input
+              required
+              type="password"
+              name="password_confirmation"
+              id="password_confirmation"
+              value={data.password_confirmation}
+              onChange={(e) =>
+                setData('password_confirmation', e.currentTarget.value)
+              }
+            />
+          </Form.Control>
+
+          {errors.password_confirmation && (
+            <Form.Message>{errors.password_confirmation}</Form.Message>
+          )}
+
+          <Form.Message match="valueMissing">
+            Confirm your password
+          </Form.Message>
+        </Form.Field>
+
         <div>
-          <InputLabel htmlFor="current_password" value="Current Password" />
+          <Form.Submit disabled={processing}>Save</Form.Submit>
 
-          <TextInput
-            id="current_password"
-            ref={currentPasswordInput}
-            value={data.current_password}
-            onChange={(e) => setData('current_password', e.target.value)}
-            type="password"
-            className="mt-1 block w-full"
-            autoComplete="current-password"
-          />
-
-          <InputError message={errors.current_password} className="mt-2" />
+          <AnimatePresence>
+            {recentlySuccessful && (
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+              >
+                Saved.
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
-
-        <div>
-          <InputLabel htmlFor="password" value="New Password" />
-
-          <TextInput
-            id="password"
-            ref={passwordInput}
-            value={data.password}
-            onChange={(e) => setData('password', e.target.value)}
-            type="password"
-            className="mt-1 block w-full"
-            autoComplete="new-password"
-          />
-
-          <InputError message={errors.password} className="mt-2" />
-        </div>
-
-        <div>
-          <InputLabel
-            htmlFor="password_confirmation"
-            value="Confirm Password"
-          />
-
-          <TextInput
-            id="password_confirmation"
-            value={data.password_confirmation}
-            onChange={(e) => setData('password_confirmation', e.target.value)}
-            type="password"
-            className="mt-1 block w-full"
-            autoComplete="new-password"
-          />
-
-          <InputError message={errors.password_confirmation} className="mt-2" />
-        </div>
-
-        <div className="flex items-center gap-4">
-          <PrimaryButton disabled={processing}>Save</PrimaryButton>
-
-          <Transition
-            show={recentlySuccessful}
-            enter="transition ease-in-out"
-            enterFrom="opacity-0"
-            leave="transition ease-in-out"
-            leaveTo="opacity-0"
-          >
-            <p className="text-sm text-gray-600">Saved.</p>
-          </Transition>
-        </div>
-      </form>
+      </Form.Root>
     </section>
   );
 }
