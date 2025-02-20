@@ -14,7 +14,6 @@ class Card extends Model
 
     protected $fillable = [
         'name',
-        'image',
         'scry_id',
         'scry_data',
         'colors',
@@ -32,6 +31,12 @@ class Card extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    /** @return BelongsTo<Image> */
+    public function image(): BelongsTo
+    {
+        return $this->belongsTo(Image::class);
     }
 
     /** @return BelongsToMany<Deck> */

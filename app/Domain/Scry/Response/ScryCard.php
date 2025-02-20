@@ -41,7 +41,7 @@ enum SecurityStamp: string
     case heart = 'heart';
 };
 
-class Card extends Data
+class ScryCard extends Data
 {
     public ?int $arena_id;
 

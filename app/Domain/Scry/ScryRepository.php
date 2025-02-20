@@ -2,14 +2,14 @@
 
 namespace App\Domain\Scry;
 
-use App\Domain\Scry\Response\Card;
+use App\Domain\Scry\Response\ScryCard;
 use Illuminate\Support\Facades\Http;
 
 class ScryRepository
 {
     private const SCRY_BASE_URI = 'https://api.scryfall.com/cards/';
 
-    public function getCardByScryId(string $id): ?Card
+    public function getCardByScryId(string $id): ?ScryCard
     {
         $response = Http::get(self::SCRY_BASE_URI.$id);
 
@@ -19,6 +19,6 @@ class ScryRepository
 
         $body = $response->json();
 
-        return Card::validateAndCreate($body);
+        return ScryCard::validateAndCreate($body);
     }
 }
