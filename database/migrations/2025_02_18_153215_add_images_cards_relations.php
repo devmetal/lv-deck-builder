@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('sets', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-            $table->string('name');
-            $table->string('set_id');
-
-            $table->foreignId('user_id')
+        Schema::table('cards', function (Blueprint $table) {
+            $table->foreignId('image_id')
                 ->constrained()
                 ->onUpdate('cascade')
                 ->onDelete('cascade');
@@ -29,6 +24,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('sets');
+        Schema::table('cards', function (Blueprint $table) {
+            $table->dropConstrainedForeignId('image_id');
+        });
     }
 };

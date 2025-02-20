@@ -11,11 +11,14 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('cards', function (Blueprint $table) {
-            $table->foreignId('set_id')
-                ->constrained()
-                ->onDelete('cascade')
-                ->onUpdate('cascade');
+        Schema::create('images', function (Blueprint $table) {
+            $table->id();
+            $table->timestamps();
+            $table->string('png');
+            $table->string('art');
+            $table->string('large');
+            $table->string('normal');
+            $table->string('small');
         });
     }
 
@@ -24,8 +27,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('cards', function (Blueprint $table) {
-            $table->dropConstrainedForeignId('set_id');
-        });
+        Schema::dropIfExists('images');
     }
 };

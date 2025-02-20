@@ -11,13 +11,24 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('lands', function (Blueprint $table) {
+        Schema::create('faces', function (Blueprint $table) {
             $table->id();
             $table->timestamps();
-            $table->string('name');
-            $table->smallInteger('count');
 
-            $table->foreignId('deck_id')
+            $table->string('name');
+            $table->json('colors')->nullable();
+            $table->string('oracle_text')->nullable();
+            $table->smallInteger('cmc')->nullable();
+            $table->string('type_line')->nullable();
+
+            $table->json('scry_data');
+
+            $table->foreignId('image_id')
+                ->constrained()
+                ->onDelete('cascade')
+                ->onUpdate('cascade');
+
+            $table->foreignId('card_id')
                 ->constrained()
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
@@ -29,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('lands');
+        Schema::dropIfExists('faces');
     }
 };
