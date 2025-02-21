@@ -3,7 +3,9 @@
 namespace App\Providers;
 
 use App\Domain\Mapper\ScryResponseToCardModelMapper;
+use App\Domain\Mapper\ScryResponseToFaceModelMapper;
 use App\Domain\Mapper\ScryResponseToImageModelMapper;
+use App\Domain\Mapper\ScryResponseToSetModelMapper;
 use App\Domain\Scry\ScryRepository;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
@@ -25,6 +27,14 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ScryResponseToImageModelMapper::class, function () {
             return new ScryResponseToImageModelMapper;
+        });
+
+        $this->app->singleton(ScryResponseToSetModelMapper::class, function () {
+            return new ScryResponseToSetModelMapper;
+        });
+
+        $this->app->singleton(ScryResponseToFaceModelMapper::class, function () {
+            return new ScryResponseToFaceModelMapper;
         });
     }
 

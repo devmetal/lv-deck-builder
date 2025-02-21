@@ -12,12 +12,12 @@ class ScryResponseToCardModelMapper
         return new Card([
             'name' => $scryCard->name,
             'scry_id' => $scryCard->id,
-            'scry_data' => $scryCard,
             'colors' => $scryCard->colors,
             'keywords' => $scryCard->keywords,
             'oracle_text' => $scryCard->oracle_text,
             'cmc' => $scryCard->cmc,
             'type_line' => $scryCard->type_line,
+            'set_id' => $scryCard->set_id,
         ]);
     }
 }

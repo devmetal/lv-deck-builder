@@ -6,6 +6,7 @@ use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 class Card extends Model
 {
@@ -15,12 +16,17 @@ class Card extends Model
     protected $fillable = [
         'name',
         'scry_id',
-        'scry_data',
         'colors',
         'keywords',
         'oracle_text',
         'cmc',
         'type_line',
+        'set_id',
+    ];
+
+    protected $casts = [
+        'colors' => 'json',
+        'keywords' => 'json',
     ];
 
     protected $hidden = [
@@ -43,5 +49,17 @@ class Card extends Model
     public function decks(): BelongsToMany
     {
         return $this->belongsToMany(Deck::class);
+    }
+
+    /** @return BelongsTo<Set> */
+    public function set(): BelongsTo
+    {
+        return $this->belongsTo(Set::class);
+    }
+
+    /** @return HasMany<Face> */
+    public function faces(): HasMany
+    {
+        return $this->hasMany(Face::class);
     }
 }

@@ -64,14 +64,14 @@ CREATE TABLE public.cards (
     updated_at timestamp(0) without time zone,
     name character varying(255) NOT NULL,
     scry_id character varying(255) NOT NULL,
-    scry_data json NOT NULL,
     colors json,
     keywords json,
     oracle_text character varying(255),
     cmc smallint NOT NULL,
     type_line character varying(255) NOT NULL,
     user_id bigint NOT NULL,
-    set_id bigint NOT NULL
+    set_id bigint NOT NULL,
+    image_id bigint NOT NULL
 );
 
 
@@ -130,6 +130,43 @@ ALTER SEQUENCE public.decks_id_seq OWNED BY public.decks.id;
 
 
 --
+-- Name: faces; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.faces (
+    id bigint NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    name character varying(255) NOT NULL,
+    colors json,
+    oracle_text character varying(255),
+    cmc smallint,
+    type_line character varying(255),
+    image_id bigint NOT NULL,
+    card_id bigint NOT NULL
+);
+
+
+--
+-- Name: faces_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.faces_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: faces_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.faces_id_seq OWNED BY public.faces.id;
+
+
+--
 -- Name: failed_jobs; Type: TABLE; Schema: public; Owner: -
 --
 
@@ -161,6 +198,41 @@ CREATE SEQUENCE public.failed_jobs_id_seq
 --
 
 ALTER SEQUENCE public.failed_jobs_id_seq OWNED BY public.failed_jobs.id;
+
+
+--
+-- Name: images; Type: TABLE; Schema: public; Owner: -
+--
+
+CREATE TABLE public.images (
+    id bigint NOT NULL,
+    created_at timestamp(0) without time zone,
+    updated_at timestamp(0) without time zone,
+    png character varying(255) NOT NULL,
+    art character varying(255) NOT NULL,
+    large character varying(255) NOT NULL,
+    normal character varying(255) NOT NULL,
+    small character varying(255) NOT NULL
+);
+
+
+--
+-- Name: images_id_seq; Type: SEQUENCE; Schema: public; Owner: -
+--
+
+CREATE SEQUENCE public.images_id_seq
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+--
+-- Name: images_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: -
+--
+
+ALTER SEQUENCE public.images_id_seq OWNED BY public.images.id;
 
 
 --
@@ -387,10 +459,24 @@ ALTER TABLE ONLY public.decks ALTER COLUMN id SET DEFAULT nextval('public.decks_
 
 
 --
+-- Name: faces id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.faces ALTER COLUMN id SET DEFAULT nextval('public.faces_id_seq'::regclass);
+
+
+--
 -- Name: failed_jobs id; Type: DEFAULT; Schema: public; Owner: -
 --
 
 ALTER TABLE ONLY public.failed_jobs ALTER COLUMN id SET DEFAULT nextval('public.failed_jobs_id_seq'::regclass);
+
+
+--
+-- Name: images id; Type: DEFAULT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.images ALTER COLUMN id SET DEFAULT nextval('public.images_id_seq'::regclass);
 
 
 --
@@ -469,6 +555,14 @@ ALTER TABLE ONLY public.decks
 
 
 --
+-- Name: faces faces_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.faces
+    ADD CONSTRAINT faces_pkey PRIMARY KEY (id);
+
+
+--
 -- Name: failed_jobs failed_jobs_pkey; Type: CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -482,6 +576,14 @@ ALTER TABLE ONLY public.failed_jobs
 
 ALTER TABLE ONLY public.failed_jobs
     ADD CONSTRAINT failed_jobs_uuid_unique UNIQUE (uuid);
+
+
+--
+-- Name: images images_pkey; Type: CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.images
+    ADD CONSTRAINT images_pkey PRIMARY KEY (id);
 
 
 --
@@ -594,6 +696,14 @@ ALTER TABLE ONLY public.card_decks
 
 
 --
+-- Name: cards cards_image_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.cards
+    ADD CONSTRAINT cards_image_id_foreign FOREIGN KEY (image_id) REFERENCES public.images(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
 -- Name: cards cards_set_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
 --
 
@@ -615,6 +725,22 @@ ALTER TABLE ONLY public.cards
 
 ALTER TABLE ONLY public.decks
     ADD CONSTRAINT decks_user_id_foreign FOREIGN KEY (user_id) REFERENCES public.users(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: faces faces_card_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.faces
+    ADD CONSTRAINT faces_card_id_foreign FOREIGN KEY (card_id) REFERENCES public.cards(id) ON UPDATE CASCADE ON DELETE CASCADE;
+
+
+--
+-- Name: faces faces_image_id_foreign; Type: FK CONSTRAINT; Schema: public; Owner: -
+--
+
+ALTER TABLE ONLY public.faces
+    ADD CONSTRAINT faces_image_id_foreign FOREIGN KEY (image_id) REFERENCES public.images(id) ON UPDATE CASCADE ON DELETE CASCADE;
 
 
 --
@@ -670,6 +796,13 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 8	2025_02_08_230142_create_card_decks_table	2
 9	2025_02_08_230535_create_lands_table	2
 10	2025_02_18_150137_update_cards_table	3
+11	2025_02_18_152721_add_images_table	4
+12	2025_02_18_153215_add_images_cards_relations	4
+13	2025_02_18_153724_create_faces_table	4
+14	2025_02_21_093149_remove_scry_data_from_cards_table	4
+15	2025_02_21_093226_remove_scry_data_from_faces_table	4
+16	2025_02_21_113127_drop_scry_data_from_faces_table	4
+17	2025_02_21_113150_drop_scry_data_from_cards_table	4
 \.
 
 
@@ -677,7 +810,7 @@ COPY public.migrations (id, migration, batch) FROM stdin;
 -- Name: migrations_id_seq; Type: SEQUENCE SET; Schema: public; Owner: -
 --
 
-SELECT pg_catalog.setval('public.migrations_id_seq', 10, true);
+SELECT pg_catalog.setval('public.migrations_id_seq', 17, true);
 
 
 --

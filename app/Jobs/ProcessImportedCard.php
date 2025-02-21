@@ -3,12 +3,13 @@
 namespace App\Jobs;
 
 use App\Domain\Mapper\ScryResponseToCardModelMapper;
-use App\Domain\Mapper\ScryResponseToImageModelMapper;
+use App\Domain\Mapper\ScryResponseToFaceModelMapper;
 use App\Domain\Scry\ScryRepository;
 use App\Models\Image;
 use App\Models\User;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
+use Illuminate\Support\Facades\DB;
 
 class ProcessImportedCard implements ShouldQueue
 {
@@ -30,7 +31,7 @@ class ProcessImportedCard implements ShouldQueue
     public function handle(
         ScryRepository $repository,
         ScryResponseToCardModelMapper $cardMapper,
-        ScryResponseToImageModelMapper $imageMapper
+        ScryResponseToFaceModelMapper $faceMapper,
     ): void {
         // read raw card data from repository
         $scryCard = $repository->getCardByScryId($this->cardIdOnScryApi);
@@ -38,19 +39,42 @@ class ProcessImportedCard implements ShouldQueue
         // map card data to model
         $cardModel = $cardMapper->mapScryCardToCardModel($scryCard);
 
-        // try to find an existing images record
-        $imagesRecordInDb = Image::where('png', $scryCard->image_uris->png)
-            ->first();
+        DB::transaction(function () use (&$cardModel, &$scryCard, &$faceMapper) {
+            $set = $this->user->sets()->firstOrCreate(
+                ['set_id' => $scryCard->set_id],
+                ['name' => $scryCard->set_name]
+            );
 
-        if (! $imagesRecordInDb) {
-            $imagesRecordInDb = $imageMapper
-                ->mapScryImageToImageModel($scryCard->image_uris)
-                ->save();
-        }
+            // when response has images
+            if (! is_null($scryCard->image_uris)) {
+                $images = Image::firstOrCreate(
+                    ['png' => $scryCard->image_uris->png],
+                    [
+                        'art' => $scryCard->image_uris->art_crop,
+                        'large' => $scryCard->image_uris->large,
+                        'normal' => $scryCard->image_uris->normal,
+                        'small' => $scryCard->image_uris->small,
+                    ]
+                );
 
-        // create the relation and store the image with card
-        $cardModel->image()->associate($imagesRecordInDb);
-        $cardModel->user()->associate($this->user);
-        $cardModel->save();
+                $cardModel->image()->associate($images);
+            }
+
+            // when response has faces
+            if (! is_null($scryCard->card_faces)) {
+                $cardModel->faces()->saveMany(
+                    $faceMapper
+                        ->mapScryResponseToFaceModel($scryCard)
+                );
+            }
+
+            $cardModel->user()
+                ->associate($this->user);
+
+            $cardModel->set()
+                ->associate($set);
+
+            $cardModel->save();
+        });
     }
 }
