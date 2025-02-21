@@ -25,7 +25,7 @@ class UploadedCsvParserService
             ]);
         }
 
-        $header = collect(str_getcsv(array_shift($lines)));
+        $header = collect(str_getcsv(array_shift($lines), ',', '"', '\\'));
 
         if (! $header->contains('scry_id')) {
             throw ValidationException::withMessages([
@@ -34,7 +34,7 @@ class UploadedCsvParserService
         }
 
         return collect($lines)
-            ->map(fn ($row) => $header->combine(str_getcsv($row)))
+            ->map(fn ($row) => $header->combine(str_getcsv($row, ',', '"', '\\')))
             ->map(fn ($row) => $row['scry_id']);
     }
 }

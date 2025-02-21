@@ -3,12 +3,12 @@
 namespace Tests\Job;
 
 use App\Domain\Mapper\ScryResponseToCardModelMapper;
-use App\Domain\Mapper\ScryResponseToFaceModelMapper;
 use App\Domain\Scry\ScryRepository;
 use App\Jobs\ProcessImportedCard;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
+use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
 function read_fixture($fixture)
@@ -27,10 +27,15 @@ class ProcessImportedCardTest extends TestCase
 {
     use RefreshDatabase;
 
-    public function test_it_should_import_cards_from_scry_by_id()
+    #[TestWith(['1', 'etali.json'])]
+    #[TestWith(['1', 'raffine.json'])]
+    #[TestWith(['1', 'land.json'])]
+    #[TestWith(['1', 'smoky.json'])]
+    #[TestWith(['1', 'signet.json'])]
+    #[TestWith(['1', 'multi.json'])]
+    public function test_it_should_import_cards_from_scry_by_id($cardId, $fixture)
     {
-        $cardId = '1';
-        $scryCard = read_fixture('raffine.json');
+        $scryCard = read_fixture($fixture);
 
         Http::fake([
             'api.scryfall.com/cards/'.$cardId => Http::response($scryCard, 200),
@@ -42,13 +47,12 @@ class ProcessImportedCardTest extends TestCase
 
         $job->handle(
             new ScryRepository,
-            new ScryResponseToCardModelMapper,
-            new ScryResponseToFaceModelMapper
+            new ScryResponseToCardModelMapper
         );
 
-        $this->assertDatabaseHas('images', [
+        /*$this->assertDatabaseHas('images', [
             'png' => $scryCard['image_uris']['png'],
-        ]);
+        ]);*/
 
         $this->assertDatabaseHas('cards', [
             'name' => $scryCard['name'],

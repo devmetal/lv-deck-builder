@@ -68,6 +68,8 @@ class ScryRepositoryTest extends TestCase
     #[TestWith(['raffine.json'])]
     #[TestWith(['land.json'])]
     #[TestWith(['smoky.json'])]
+    #[TestWith(['signet.json'])]
+    #[TestWith(['multi.json'])]
     public function test_is_can_read_cards($fixture): void
     {
         $repository = new ScryRepository;

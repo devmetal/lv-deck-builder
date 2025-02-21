@@ -87,6 +87,7 @@ class ScryCard extends Data
     public float $cmc;
 
     /** @var array<string> */
+    #[Present]
     public array $color_identity;
 
     /** @var array<string>|null */
