@@ -20,6 +20,11 @@ export default function Authenticated({
             </NavigationMenu.Link>
           </NavigationMenu.Item>
           <NavigationMenu.Item>
+            <NavigationMenu.Link asChild>
+              <Link href={route('import.cards')}>Import cards</Link>
+            </NavigationMenu.Link>
+          </NavigationMenu.Item>
+          <NavigationMenu.Item>
             <NavigationMenu.Trigger>
               {user.name}
               <CaretDownIcon aria-hidden />
