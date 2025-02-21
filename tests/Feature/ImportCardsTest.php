@@ -95,4 +95,24 @@ class ImportCardsTest extends TestCase
 
         $response->assertInvalid(['file']);
     }
+
+    public function test_validation_error_when_csv_does_not_contain_scry_id_header()
+    {
+        Queue::fake();
+
+        $user = User::factory()->create();
+
+        $csv = ['1', '2', '3'];
+
+        $file = UploadedFile::fake()
+            ->createWithContent('ids.csv', implode(PHP_EOL, $csv));
+
+        $response = $this
+            ->actingAs($user)
+            ->post('/import/cards/upload', [
+                'file' => $file,
+            ]);
+
+        $response->assertInvalid(['file']);
+    }
 }

@@ -7,6 +7,7 @@ use App\Domain\Mapper\ScryResponseToFaceModelMapper;
 use App\Domain\Mapper\ScryResponseToImageModelMapper;
 use App\Domain\Mapper\ScryResponseToSetModelMapper;
 use App\Domain\Scry\ScryRepository;
+use App\Services\UploadedCsvParserService;
 use Illuminate\Support\Facades\Vite;
 use Illuminate\Support\ServiceProvider;
 
@@ -35,6 +36,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(ScryResponseToFaceModelMapper::class, function () {
             return new ScryResponseToFaceModelMapper;
+        });
+
+        $this->app->bind(UploadedCsvParserService::class, function () {
+            return new UploadedCsvParserService;
         });
     }
 
