@@ -103,6 +103,10 @@ export default function Login({
           )}
         </div>
 
+        <div>
+          <Link href={route('register')}>Create a account</Link>
+        </div>
+
         <Form.Submit disabled={processing}>Login</Form.Submit>
       </Form.Root>
     </GuestLayout>
