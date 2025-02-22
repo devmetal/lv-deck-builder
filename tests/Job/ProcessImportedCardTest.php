@@ -27,32 +27,34 @@ class ProcessImportedCardTest extends TestCase
 {
     use RefreshDatabase;
 
-    #[TestWith(['1', 'etali.json'])]
-    #[TestWith(['1', 'raffine.json'])]
-    #[TestWith(['1', 'land.json'])]
-    #[TestWith(['1', 'smoky.json'])]
-    #[TestWith(['1', 'signet.json'])]
-    #[TestWith(['1', 'multi.json'])]
-    public function test_it_should_import_cards_from_scry_by_id($cardId, $fixture)
+    #[TestWith(['etali.json'])]
+    #[TestWith(['raffine.json'])]
+    #[TestWith(['land.json'])]
+    #[TestWith(['smoky.json'])]
+    #[TestWith(['signet.json'])]
+    #[TestWith(['multi.json'])]
+    public function test_it_should_import_cards_from_scry_by_id($fixture)
     {
         $scryCard = read_fixture($fixture);
 
         Http::fake([
-            'api.scryfall.com/cards/'.$cardId => Http::response($scryCard, 200),
+            'api.scryfall.com/cards/1' => Http::response($scryCard, 200),
         ]);
 
         $user = User::factory()->create();
 
-        $job = new ProcessImportedCard($cardId, $user);
+        $job = new ProcessImportedCard('1', $user);
 
         $job->handle(
             new ScryRepository,
             new ScryResponseToCardModelMapper
         );
 
-        /*$this->assertDatabaseHas('images', [
-            'png' => $scryCard['image_uris']['png'],
-        ]);*/
+        if (isset($fixture['image_uris'])) {
+            $this->assertDatabaseHas('images', [
+                'png' => $scryCard['image_uris']['png'],
+            ]);
+        }
 
         $this->assertDatabaseHas('cards', [
             'name' => $scryCard['name'],

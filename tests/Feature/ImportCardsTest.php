@@ -4,6 +4,7 @@ namespace Tests\Feature;
 
 use App\Jobs\ProcessImportedCard;
 use App\Models\User;
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Queue;
@@ -13,8 +14,15 @@ class ImportCardsTest extends TestCase
 {
     use RefreshDatabase;
 
+    private function get_csv_file(array $from): UploadedFile
+    {
+        return UploadedFile::fake()
+            ->createWithContent('ids.csv', implode(PHP_EOL, $from));
+    }
+
     public function test_upload_screen_can_be_rendered()
     {
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
         $response = $this
@@ -28,12 +36,10 @@ class ImportCardsTest extends TestCase
     {
         Queue::fake();
 
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
-        $csv = ['scry_id', '1', '2', '3'];
-
-        $file = UploadedFile::fake()
-            ->createWithContent('ids.csv', implode(PHP_EOL, $csv));
+        $file = $this->get_csv_file(['scry_id', '1', '2', '3']);
 
         $response = $this
             ->actingAs($user)
@@ -50,6 +56,7 @@ class ImportCardsTest extends TestCase
     {
         Queue::fake();
 
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
         $response = $this
@@ -63,6 +70,7 @@ class ImportCardsTest extends TestCase
     {
         Queue::fake();
 
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
         $file = UploadedFile::fake()->image('wrong.png');
@@ -80,12 +88,10 @@ class ImportCardsTest extends TestCase
     {
         Queue::fake();
 
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
-        $csv = ['scry_id'];
-
-        $file = UploadedFile::fake()
-            ->createWithContent('ids.csv', implode(PHP_EOL, $csv));
+        $file = $this->get_csv_file(['scry_id']);
 
         $response = $this
             ->actingAs($user)
@@ -100,12 +106,10 @@ class ImportCardsTest extends TestCase
     {
         Queue::fake();
 
+        /** @var Authenticatable */
         $user = User::factory()->create();
 
-        $csv = ['1', '2', '3'];
-
-        $file = UploadedFile::fake()
-            ->createWithContent('ids.csv', implode(PHP_EOL, $csv));
+        $file = $this->get_csv_file(['1', '2', '3']);
 
         $response = $this
             ->actingAs($user)
