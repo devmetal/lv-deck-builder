@@ -62,4 +62,10 @@ class Card extends Model
     {
         return $this->hasMany(Face::class);
     }
+
+    /** @return HasMany<Price> */
+    public function prices(): HasMany
+    {
+        return $this->hasMany(Price::class);
+    }
 }
