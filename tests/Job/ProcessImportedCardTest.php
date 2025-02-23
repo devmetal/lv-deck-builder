@@ -11,7 +11,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
-use function PHPUnit\Framework\assertEquals;
 
 function read_fixture($fixture)
 {
@@ -52,26 +51,43 @@ class ProcessImportedCardTest extends TestCase
             new ScryResponseToCardModelMapper
         );
 
-        if (isset($scryCard['image_uris'])) {
-            $this->assertDatabaseHas('images', [
-                'png' => $scryCard['image_uris']['png'],
-            ]);
-        }
-
+        // card added to the database
         $this->assertDatabaseHas('cards', [
             'name' => $scryCard['name'],
             'user_id' => $user->id,
         ]);
 
+        // if the card has top level image
+        // the image also added to the database
         if (isset($scryCard['image_uris'])) {
             $this->assertDatabaseHas('images', [
                 'png' => $scryCard['image_uris']['png'],
             ]);
         }
 
+        // The set that contains the card
+        // is added to the database
         $this->assertDatabaseHas('sets', [
             'name' => $scryCard['set_name'],
             'set_id' => $scryCard['set_id'],
         ]);
+
+        // if the card has faces, the faces
+        // also written in the database
+        if (isset($scryCard['card_faces'])) {
+            foreach ($scryCard['card_faces'] as $face) {
+                $this->assertDatabaseHas('faces', [
+                    'name' => $face['name'],
+                ]);
+
+                // if the face has images,
+                // they also added to the database
+                if (isset($face['image_uris'])) {
+                    $this->assertDatabaseHas('images', [
+                        'png' => $face['image_uris']['png'],
+                    ]);
+                }
+            }
+        }
     }
 }
