@@ -67,34 +67,34 @@ class ProcessImportedCard implements ShouldQueue
 
             // when response has faces
             if (! is_null($scryCard->card_faces)) {
-                collect($scryCard->card_faces)
-                    ->each(function ($face) use (&$cardModel) {
-                        $faceModel = new Face([
-                            'name' => $face->name,
-                            'cmc' => $face->cmc,
-                            'colors' => $face->colors,
-                            'oracle_text' => $face->oracle_text,
-                            'type_line' => $face->type_line,
-                        ]);
 
-                        if (! is_null($face->image_uris)) {
-                            $images = Image::firstOrCreate(
-                                ['png' => $face->image_uris->png],
-                                [
-                                    'art' => $face->image_uris->art_crop,
-                                    'large' => $face->image_uris->large,
-                                    'normal' => $face->image_uris->normal,
-                                    'small' => $face->image_uris->small,
-                                ]
-                            );
+                foreach ($scryCard->card_faces as $face) {
+                    $faceModel = new Face([
+                        'name' => $face->name,
+                        'cmc' => $face->cmc,
+                        'colors' => $face->colors,
+                        'oracle_text' => $face->oracle_text,
+                        'type_line' => $face->type_line,
+                    ]);
 
-                            $faceModel->image()->associate($images);
-                        }
+                    if (! is_null($face->image_uris)) {
+                        $images = Image::firstOrCreate(
+                            ['png' => $face->image_uris->png],
+                            [
+                                'art' => $face->image_uris->art_crop,
+                                'large' => $face->image_uris->large,
+                                'normal' => $face->image_uris->normal,
+                                'small' => $face->image_uris->small,
+                            ]
+                        );
 
-                        $faceModel->card()->associate($cardModel);
+                        $faceModel->image()->associate($images);
+                    }
 
-                        $faceModel->save();
-                    });
+                    $faceModel->card()->associate($cardModel);
+
+                    $faceModel->save();
+                }
             }
         });
     }
