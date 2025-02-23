@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @property int $card_id
  * @property float $price
  * @property string $currency
+ * @property string|null $provider
  * @property-read \App\Models\Card $card
  * @method static \Database\Factories\PriceFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price newModelQuery()
@@ -26,6 +27,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereCurrency($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price wherePrice($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereProvider($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereUpdatedAt($value)
  * @mixin \Eloquent
  */
@@ -36,7 +38,8 @@ class Price extends Model
 
     protected $fillable = [
         'price',
-        'currency'
+        'currency',
+        'provider',
     ];
 
     /** @return BelongsTo<Card> */
