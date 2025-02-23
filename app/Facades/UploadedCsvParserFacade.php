@@ -2,6 +2,7 @@
 
 namespace App\Facades;
 
+use Illuminate\Support\Collection;
 use Illuminate\Support\Facades\Facade;
 
 /**

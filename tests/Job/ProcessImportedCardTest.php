@@ -5,11 +5,13 @@ namespace Tests\Job;
 use App\Domain\Mapper\ScryResponseToCardModelMapper;
 use App\Domain\Scry\ScryRepository;
 use App\Jobs\ProcessImportedCard;
+use App\Models\Card;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
+use function PHPUnit\Framework\assertEquals;
 
 function read_fixture($fixture)
 {
@@ -50,7 +52,7 @@ class ProcessImportedCardTest extends TestCase
             new ScryResponseToCardModelMapper
         );
 
-        if (isset($fixture['image_uris'])) {
+        if (isset($scryCard['image_uris'])) {
             $this->assertDatabaseHas('images', [
                 'png' => $scryCard['image_uris']['png'],
             ]);
@@ -60,6 +62,12 @@ class ProcessImportedCardTest extends TestCase
             'name' => $scryCard['name'],
             'user_id' => $user->id,
         ]);
+
+        if (isset($scryCard['image_uris'])) {
+            $this->assertDatabaseHas('images', [
+                'png' => $scryCard['image_uris']['png'],
+            ]);
+        }
 
         $this->assertDatabaseHas('sets', [
             'name' => $scryCard['set_name'],

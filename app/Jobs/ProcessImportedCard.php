@@ -44,17 +44,15 @@ class ProcessImportedCard implements ShouldQueue
                 ['name' => $scryCard->set_name]
             );
 
-            $cardModel->user()
-                ->associate($this->user);
+            $cardModel->user()->associate($this->user);
 
-            $cardModel->set()
-                ->associate($set);
+            $cardModel->set()->associate($set);
 
             $cardModel->save();
 
             // when response has images
             if (! is_null($scryCard->image_uris)) {
-                $images = Image::firstOrCreate(
+                $cardModel->image()->firstOrCreate(
                     ['png' => $scryCard->image_uris->png],
                     [
                         'art' => $scryCard->image_uris->art_crop,
@@ -64,7 +62,6 @@ class ProcessImportedCard implements ShouldQueue
                     ]
                 );
 
-                $cardModel->image()->associate($images);
                 $cardModel->save();
             }
 
