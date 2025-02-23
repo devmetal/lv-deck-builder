@@ -16,7 +16,7 @@ function read_fixture($fixture)
 {
     $path = implode(
         DIRECTORY_SEPARATOR,
-        [__DIR__, '..', 'Fixtures', $fixture]
+        [__DIR__, '..', '..', 'Fixtures', $fixture]
     );
 
     $file = file_get_contents($path);
