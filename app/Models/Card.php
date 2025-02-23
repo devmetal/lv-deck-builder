@@ -29,8 +29,6 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Face> $faces
  * @property-read int|null $faces_count
  * @property-read \App\Models\Image|null $image
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Price> $prices
- * @property-read int|null $prices_count
  * @property-read \App\Models\Set $set
  * @property-read \App\Models\User $user
  * @method static \Database\Factories\CardFactory factory($count = null, $state = [])
@@ -105,11 +103,5 @@ class Card extends Model
     public function faces(): HasMany
     {
         return $this->hasMany(Face::class);
-    }
-
-    /** @return HasMany<Price> */
-    public function prices(): HasMany
-    {
-        return $this->hasMany(Price::class);
     }
 }
