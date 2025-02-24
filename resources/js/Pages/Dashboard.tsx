@@ -1,35 +1,6 @@
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import styled from 'styled-components';
-
-const Cards = styled.div`
-  display: flex;
-  margin: 0 auto;
-  width: 100%;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: center;
-  gap: 1rem;
-`;
-
-const CardBox = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: min(100%, 240px);
-`;
-
-const CardImage = styled.img`
-  width: 100%;
-  filter: drop-shadow(5px 5px 5px #222);
-`;
-
-const PriceTag = styled.div`
-  font-size: 0.8rem;
-  margin-top: 5px;
-  color: white;
-`;
+import { Container, Grid2, Paper } from '@mui/material';
 
 function Card({ card }: { card: App.Domain.Dto.FeCard }) {
   // get the main image, if its not avaiable switch to first face
@@ -40,10 +11,10 @@ function Card({ card }: { card: App.Domain.Dto.FeCard }) {
   }
 
   return (
-    <CardBox>
-      <CardImage src={image} />
-      <PriceTag>{card.price} USD</PriceTag>
-    </CardBox>
+    <div>
+      <img src={image} style={{ width: '100%' }} />
+      <div>{card.price} USD</div>
+    </div>
   );
 }
 
@@ -53,14 +24,23 @@ export default function Dashboard({
   cards: App.Domain.Dto.FeCard[];
 }) {
   return (
-    <AuthenticatedLayout header={<h2>Dashboard</h2>}>
+    <AuthenticatedLayout header={null}>
       <Head title="Dashboard" />
 
-      <Cards>
-        {cards.map((card) => (
-          <Card key={card.id} card={card} />
-        ))}
-      </Cards>
+      <Paper square>
+        <Container maxWidth="md">
+          <Grid2 container spacing={4}>
+            {cards.map((card) => (
+              <Grid2
+                key={card.id}
+                size={{ xs: 12, sm: 4, md: 4, lg: 3, xl: 3 }}
+              >
+                <Card card={card} />
+              </Grid2>
+            ))}
+          </Grid2>
+        </Container>
+      </Paper>
     </AuthenticatedLayout>
   );
 }

@@ -1,19 +1,24 @@
 import '../css/app.css';
 import './bootstrap';
 
+import '@fontsource/roboto/300.css';
+import '@fontsource/roboto/400.css';
+import '@fontsource/roboto/500.css';
+import '@fontsource/roboto/700.css';
+
 import { createInertiaApp } from '@inertiajs/react';
+import CssBaseline from '@mui/material/CssBaseline';
+import { createTheme, ThemeProvider } from '@mui/material/styles';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
-import { ThemeProvider } from 'styled-components';
 
 const appName = import.meta.env.VITE_APP_NAME || 'MTG Deck Builder';
 
-const theme = {
-  xs: '321px',
-  sm: '426px',
-  md: '769px',
-  lg: '1025px',
-};
+const theme = createTheme({
+  colorSchemes: {
+    dark: true,
+  },
+});
 
 createInertiaApp({
   title: (title) => `${title} - ${appName}`,
@@ -26,9 +31,12 @@ createInertiaApp({
     const root = createRoot(el);
 
     root.render(
-      <ThemeProvider theme={theme}>
-        <App {...props} />
-      </ThemeProvider>,
+      <>
+        <CssBaseline enableColorScheme />
+        <ThemeProvider theme={theme}>
+          <App {...props} />
+        </ThemeProvider>
+      </>,
     );
   },
   progress: {
