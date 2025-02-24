@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Query\JoinClause;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int $id
@@ -27,26 +30,29 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Face> $faces
  * @property-read int|null $faces_count
  * @property-read \App\Models\Image|null $image
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Price> $prices
+ * @property-read int|null $prices_count
  * @property-read \App\Models\Set $set
  * @property-read \App\Models\User $user
  *
  * @method static \Database\Factories\CardFactory factory($count = null, $state = [])
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newModelQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newQuery()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card query()
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereCmc($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereColors($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereCreatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereImageId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereKeywords($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereName($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereOracleText($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereScryId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereSetId($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereTypeLine($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUpdatedAt($value)
- * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUserId($value)
+ * @method static Builder<static>|Card newModelQuery()
+ * @method static Builder<static>|Card newQuery()
+ * @method static Builder<static>|Card query()
+ * @method static Builder<static>|Card whereCmc($value)
+ * @method static Builder<static>|Card whereColors($value)
+ * @method static Builder<static>|Card whereCreatedAt($value)
+ * @method static Builder<static>|Card whereId($value)
+ * @method static Builder<static>|Card whereImageId($value)
+ * @method static Builder<static>|Card whereKeywords($value)
+ * @method static Builder<static>|Card whereName($value)
+ * @method static Builder<static>|Card whereOracleText($value)
+ * @method static Builder<static>|Card whereScryId($value)
+ * @method static Builder<static>|Card whereSetId($value)
+ * @method static Builder<static>|Card whereTypeLine($value)
+ * @method static Builder<static>|Card whereUpdatedAt($value)
+ * @method static Builder<static>|Card whereUserId($value)
+ * @method static Builder<static>|Card withMaxPrice(string $provider)
  *
  * @mixin \Eloquent
  */
@@ -109,5 +115,19 @@ class Card extends Model
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class, 'scry_id', 'scry_id');
+    }
+
+    public function scopeWithMaxPrice(Builder $query, string $provider): void
+    {
+        $prices = DB::table('prices')
+            ->select('scry_id', DB::raw('MAX(price) as max_price'))
+            ->where('provider', $provider)
+            ->groupBy('scry_id');
+
+        $query
+            ->joinSub($prices, 'P', function (JoinClause $join) {
+                $join->on('cards.scry_id', '=', 'P.scry_id');
+            })
+            ->orderByDesc('max_price');
     }
 }
