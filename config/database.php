@@ -129,10 +129,8 @@ return [
 
         'prices' => [
             'driver' => 'sqlite',
-            'url' => env('DB_URL'),
             'database' => database_path('AllPricesToday.sqlite'),
             'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,
@@ -140,10 +138,8 @@ return [
 
         'printings' => [
             'driver' => 'sqlite',
-            'url' => env('DB_URL'),
             'database' => database_path('AllPrintings.sqlite'),
             'prefix' => '',
-            'foreign_key_constraints' => env('DB_FOREIGN_KEYS', true),
             'busy_timeout' => null,
             'journal_mode' => null,
             'synchronous' => null,

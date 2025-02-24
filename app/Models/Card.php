@@ -9,8 +9,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
- * 
- *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -31,6 +29,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @property-read \App\Models\Image|null $image
  * @property-read \App\Models\Set $set
  * @property-read \App\Models\User $user
+ *
  * @method static \Database\Factories\CardFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card newQuery()
@@ -48,6 +47,7 @@ use Illuminate\Database\Eloquent\Relations\HasMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereTypeLine($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Card whereUserId($value)
+ *
  * @mixin \Eloquent
  */
 class Card extends Model
@@ -103,5 +103,11 @@ class Card extends Model
     public function faces(): HasMany
     {
         return $this->hasMany(Face::class);
+    }
+
+    /** @return HasMany<Price> */
+    public function prices(): HasMany
+    {
+        return $this->hasMany(Price::class, 'scry_id', 'scry_id');
     }
 }
