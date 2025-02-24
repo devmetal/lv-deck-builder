@@ -3,11 +3,13 @@ import { Head } from '@inertiajs/react';
 import styled from 'styled-components';
 
 const Cards = styled.div`
-  display: grid;
-  grid-template-columns: repeat(1, 1fr);
+  display: flex;
   margin: 0 auto;
-  gap: 0.5rem;
-  width: 60%;
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: center;
+  gap: 1rem;
 `;
 
 const CardBox = styled.div`
@@ -15,14 +17,18 @@ const CardBox = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: min(100%, 240px);
 `;
 
 const CardImage = styled.img`
   width: 100%;
+  filter: drop-shadow(5px 5px 5px #222);
 `;
 
 const PriceTag = styled.div`
   font-size: 0.8rem;
+  margin-top: 5px;
+  color: white;
 `;
 
 function Card({ card }: { card: App.Domain.Dto.FeCard }) {
