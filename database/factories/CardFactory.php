@@ -17,7 +17,14 @@ class CardFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'scry_id' => fake()->uuid(),
+            'cmc' => fake()->randomDigit(),
+            'type_line' => fake()->word(),
+            'keywords' => fake()->words(),
+            'colors' => fake()->randomElements(
+                ['r', 'g', 'u', 'c', 'w', 'b'], 2
+            ),
         ];
     }
 }

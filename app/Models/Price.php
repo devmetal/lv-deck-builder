@@ -2,11 +2,10 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * 
- *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -16,6 +15,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property float $price
  * @property string $scry_id
  * @property string $source_date
+ *
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price newQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price query()
@@ -28,10 +28,14 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereScryId($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereSourceDate($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Price whereUpdatedAt($value)
+ *
  * @mixin \Eloquent
  */
 class Price extends Model
 {
+    /** @use HasFactory<\Database\Factories\PriceFactory> */
+    use HasFactory;
+
     protected $fillable = [
         'mtgjson_uuid',
         'provider',

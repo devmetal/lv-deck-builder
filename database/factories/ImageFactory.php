@@ -17,7 +17,11 @@ class ImageFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'png' => '/fake.png',
+            'art' => '/fake.png',
+            'large' => '/fake.png',
+            'normal' => '/fake.png',
+            'small' => '/fake.png',
         ];
     }
 }

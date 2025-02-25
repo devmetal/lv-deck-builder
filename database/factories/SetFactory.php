@@ -17,7 +17,8 @@ class SetFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->word(),
+            'set_id' => fake()->uuid(),
         ];
     }
 }

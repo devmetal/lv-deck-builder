@@ -17,7 +17,12 @@ class FaceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'name' => fake()->name(),
+            'cmc' => fake()->randomDigit(),
+            'type_line' => fake()->word(),
+            'colors' => fake()->randomElements(
+                ['r', 'g', 'u', 'c', 'w', 'b'], 2
+            ),
         ];
     }
 }

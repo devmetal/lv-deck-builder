@@ -17,7 +17,12 @@ class PriceFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'mtgjson_uuid' => fake()->uuid(),
+            'scry_id' => fake()->uuid(),
+            'provider' => 'cardmarket',
+            'currency' => 'USD',
+            'price' => fake()->randomFloat(2),
+            'source_date' => fake()->date(),
         ];
     }
 }
