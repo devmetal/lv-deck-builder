@@ -1,76 +1,75 @@
 import { Link } from '@inertiajs/react';
+import { HamburgerMenuIcon } from '@radix-ui/react-icons';
 import { NavigationMenu } from 'radix-ui';
-import styled from 'styled-components';
-
-const MenuRoot = styled(NavigationMenu.Root)`
-  width: 100%;
-`;
-
-const MenuList = styled(NavigationMenu.List)`
-  display: flex;
-  list-style-type: none;
-  margin: 0;
-  padding: 0;
-  background-color: #5a5a5a;
-  justify-content: flex-start;
-  align-items: center;
-  box-shadow: 1px 1px black;
-`;
-
-const MenuItem = styled(NavigationMenu.Item)`
-  display: block;
-`;
-
-const MenuTrigger = styled(NavigationMenu.Trigger)`
-  background: none;
-  outline: none;
-  border: none;
-  padding: 15px;
-`;
-
-const SubMenu = styled(NavigationMenu.Content)`
-  position: absolute;
-  top: initial;
-  right: 0;
-`;
-
-const MenuLink = styled(Link)`
-  color: white;
-  text-decoration: none;
-  padding: 15px;
-  display: block;
-  background: none;
-  outline: none;
-  border: none;
-`;
 
 export default function Navigation() {
   return (
-    <MenuRoot>
-      <MenuList>
-        <MenuItem>
+    <NavigationMenu.Root className="navbar bg-neutral shadow-sm">
+      <NavigationMenu.List className="md:hidden">
+        <NavigationMenu.Item>
+          <NavigationMenu.Trigger asChild>
+            <div className="btn btn-ghost" role="button">
+              <HamburgerMenuIcon />
+            </div>
+          </NavigationMenu.Trigger>
+          <NavigationMenu.Content>
+            <NavigationMenu.List className="menu absolute bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
+              <NavigationMenu.Item>
+                <NavigationMenu.Link asChild>
+                  <Link href={route('dashboard')}>Collection</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link asChild>
+                  <Link href={route('profile.edit')}>Profile</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item style={{ flex: 1 }}>
+                <NavigationMenu.Link asChild>
+                  <Link href={route('import.cards')}>Import cards</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link asChild>
+                  <Link href={route('logout')} method="post">
+                    Logout
+                  </Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+            </NavigationMenu.List>
+          </NavigationMenu.Content>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+      <NavigationMenu.List className="hidden md:flex menu menu-horizontal px-1">
+        <NavigationMenu.Item>
           <NavigationMenu.Link asChild>
-            <MenuLink href={route('dashboard')}>Collection</MenuLink>
+            <Link href={route('dashboard')}>Collection</Link>
           </NavigationMenu.Link>
-        </MenuItem>
-        <MenuItem>
+        </NavigationMenu.Item>
+
+        <NavigationMenu.Item>
           <NavigationMenu.Link asChild>
-            <MenuLink href={route('profile.edit')}>Profile</MenuLink>
+            <Link href={route('profile.edit')}>Profile</Link>
           </NavigationMenu.Link>
-        </MenuItem>
-        <MenuItem style={{ flex: 1 }}>
+        </NavigationMenu.Item>
+
+        <NavigationMenu.Item style={{ flex: 1 }}>
           <NavigationMenu.Link asChild>
-            <MenuLink href={route('import.cards')}>Import cards</MenuLink>
+            <Link href={route('import.cards')}>Import cards</Link>
           </NavigationMenu.Link>
-        </MenuItem>
-        <MenuItem>
+        </NavigationMenu.Item>
+
+        <NavigationMenu.Item>
           <NavigationMenu.Link asChild>
-            <MenuLink href={route('logout')} method="post">
+            <Link href={route('logout')} method="post">
               Logout
-            </MenuLink>
+            </Link>
           </NavigationMenu.Link>
-        </MenuItem>
-      </MenuList>
-    </MenuRoot>
+        </NavigationMenu.Item>
+      </NavigationMenu.List>
+    </NavigationMenu.Root>
   );
 }

@@ -15,7 +15,7 @@ class DashboardController extends Controller
             ->with('image')
             ->with('faces')
             ->with('faces.image')
-            ->limit(16)->get();
+            ->limit(21)->get();
 
         return Inertia::render('Dashboard', [
             'cards' => FeCard::collect($cards),
