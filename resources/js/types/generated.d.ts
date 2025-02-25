@@ -15,4 +15,8 @@ png: string;
 small: string;
 large: string;
 };
+export type FeSet = {
+id: number;
+name: string;
+};
 }

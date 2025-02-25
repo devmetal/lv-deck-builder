@@ -1,20 +1,34 @@
+import { Deferred } from '@inertiajs/react';
 import { MagnifyingGlassIcon } from '@radix-ui/react-icons';
 import ColorSelector from './ColorSelector';
 import RaritySelector from './RaritySelector';
 import SetSelector from './SetSelector';
 import TermInput from './TermInput';
 
-export default function CardSearch({ disabled }: { disabled: boolean }) {
+export default function CardSearch({
+  disabled,
+  sets,
+}: {
+  disabled: boolean;
+  sets: App.Domain.Dto.FeSet[];
+}) {
   const handleSearch = () => {
     console.log('search initiated');
   };
 
   return (
-    <div className="card p-4 gap-4 flex flex-col bg-base-300 m-8 mx-16 md:mx-8">
+    <div className="card p-4 gap-4 flex flex-col bg-base-200 m-8 mx-16 md:mx-8">
       <TermInput current="" onTermChange={() => {}} onSearch={handleSearch} />
       <ColorSelector current="" onColorsChange={() => {}} />
       <div className="flex flex-col sm:flex-row gap-4">
-        <SetSelector current="" onSelect={() => {}} onSearch={handleSearch} />
+        <Deferred data="sets" fallback={<div className="skeleton w-60 h-10" />}>
+          <SetSelector
+            sets={sets}
+            current=""
+            onSelect={() => {}}
+            onSearch={handleSearch}
+          />
+        </Deferred>
         <RaritySelector
           current=""
           onRarityChange={() => {}}

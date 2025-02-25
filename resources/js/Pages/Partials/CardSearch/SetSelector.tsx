@@ -4,11 +4,13 @@ type Props = {
   onSelect: (code: string) => void;
   onSearch: () => void;
   current: string;
+  sets: App.Domain.Dto.FeSet[];
 };
 
 export default function SetSelector({
   onSelect,
   onSearch,
+  sets,
   current = '',
 }: Props) {
   const [value, setValue] = useState(current);
@@ -34,7 +36,12 @@ export default function SetSelector({
         }
       }}
     >
-      <option>Set</option>
+      <option value="">Set</option>
+      {sets.map((set) => (
+        <option key={set.id} value={set.id}>
+          {set.name}
+        </option>
+      ))}
     </select>
   );
 }

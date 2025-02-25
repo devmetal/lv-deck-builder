@@ -5,13 +5,15 @@ import CardSearch from './Partials/CardSearch';
 
 export default function Dashboard({
   cards,
+  sets,
 }: {
   cards: App.Domain.Dto.FeCard[];
+  sets: App.Domain.Dto.FeSet[];
 }) {
   return (
     <AuthenticatedLayout header="Dashboard">
       <Head title="Dashboard" />
-      <CardSearch disabled={false} />
+      <CardSearch sets={sets} disabled={false} />
       <CardList cards={cards} />
     </AuthenticatedLayout>
   );
