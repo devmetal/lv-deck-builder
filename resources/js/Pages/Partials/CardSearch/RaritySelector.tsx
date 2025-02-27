@@ -1,20 +1,10 @@
-import { useEffect, useState } from 'react';
-
 export default function RaritySelector({
   onRarityChange,
-  onSearch,
-  current = '',
+  value = '',
 }: {
   onRarityChange: (rarity: string) => void;
-  onSearch: () => void;
-  current: string;
+  value: string;
 }) {
-  const [value, setValue] = useState(current);
-
-  useEffect(() => {
-    setValue(current);
-  }, [current]);
-
   return (
     <select
       className="select"
@@ -23,16 +13,10 @@ export default function RaritySelector({
         const {
           currentTarget: { value },
         } = e;
-        setValue(value);
         onRarityChange(value);
       }}
-      onKeyUp={(e) => {
-        if (e.key === 'Enter') {
-          onSearch();
-        }
-      }}
     >
-      <option>Rarity</option>
+      <option>-- Choose --</option>
       <option>common</option>
       <option>uncommon</option>
       <option>rare</option>

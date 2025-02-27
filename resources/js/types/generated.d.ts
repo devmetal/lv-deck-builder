@@ -1,4 +1,10 @@
 declare namespace App.Domain.Dto {
+export type BeSearch = {
+term: string | null;
+setId: string | null;
+rarity: string | null;
+colors: Array<string> | null;
+};
 export type FeCard = {
 id: number;
 image: App.Domain.Dto.FeCardImage | null;

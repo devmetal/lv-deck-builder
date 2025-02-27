@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\CardController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportCardsController;
 use App\Http\Controllers\ProfileController;
@@ -26,6 +27,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/import/cards/status', [ImportCardsController::class, 'status'])->name('import.cards.status');
 
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
+
+    Route::get('/cards/list', [CardController::class, 'list'])->name('card.list');
 });
 
 require __DIR__.'/auth.php';

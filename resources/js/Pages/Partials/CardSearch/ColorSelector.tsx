@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback } from 'react';
 import ColorCheckbox from './ColorCheckbox';
 
 type Color = {
@@ -17,31 +17,33 @@ const colors: Color[] = [
 
 export default function ColorSelector({
   onColorsChange,
+  value,
 }: {
-  onColorsChange: (colors: string) => void;
-  current: string;
+  onColorsChange: (colors: string[]) => void;
+  value: string[];
 }) {
-  const [checked, setChecked] = useState<string[]>([]);
-
   const onChange = useCallback(
     (color: string, isChecked: boolean) => {
       let nextState: string[];
       if (!isChecked) {
-        nextState = checked.filter((c) => c !== color);
+        nextState = value.filter((c) => c !== color);
       } else {
-        nextState = [...checked, color];
+        if (color === 'C') {
+          nextState = ['C'];
+        } else {
+          nextState = [...value, color].filter((c) => c !== 'C');
+        }
       }
-      setChecked(nextState);
-      onColorsChange(nextState.join(','));
+      onColorsChange(nextState);
     },
-    [checked, onColorsChange],
+    [onColorsChange, value],
   );
 
   return (
     <div className="flex flex-row gap-4 items-center flex-wrap">
       {colors.map((color) => (
         <ColorCheckbox
-          checked={checked.includes(color.value)}
+          checked={value.includes(color.value)}
           label={color.label}
           value={color.value}
           onChange={onChange}

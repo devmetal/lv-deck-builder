@@ -1,19 +1,11 @@
-import { useEffect, useState } from 'react';
-
 export default function TermInput({
   onTermChange,
-  onSearch,
-  current = '',
+  value = '',
 }: {
   onTermChange: (term: string) => void;
-  onSearch: () => void;
-  current: string;
+  value: string;
 }) {
-  const [value, setValue] = useState(current);
-
-  useEffect(() => {
-    setValue(current);
-  }, [current]);
+  //const [value, setValue] = useState(current);
 
   return (
     <input
@@ -25,13 +17,7 @@ export default function TermInput({
           currentTarget: { value },
         } = e;
 
-        setValue(value);
         onTermChange(value);
-      }}
-      onKeyUp={(e) => {
-        if (e.code === 'Enter' && current !== value) {
-          onSearch();
-        }
       }}
       type="text"
     />
