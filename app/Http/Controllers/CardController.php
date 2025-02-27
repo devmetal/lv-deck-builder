@@ -45,7 +45,7 @@ class CardController extends Controller
             ->with('faces.image')
             ->get();
 
-        return Inertia::render('Dashboard', [
+        return Inertia::render('Cards/List', [
             'query' => fn () => $query,
             'cards' => fn () => FeCard::collect($cards),
             'sets' => fn () => Inertia::defer(
