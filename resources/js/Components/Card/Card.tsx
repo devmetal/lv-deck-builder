@@ -14,11 +14,15 @@ export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
 
   const showFaces: PointerEventHandler = (e) => {
     const { currentTarget } = e;
-    if (currentTarget.getBoundingClientRect().x > window.innerWidth / 2) {
+
+    const { x } = currentTarget.getBoundingClientRect();
+
+    if (x > window.innerWidth / 2) {
       setFacesDirection('left');
     } else {
       setFacesDirection('right');
     }
+
     setFacesVisible(true);
   };
 
@@ -46,10 +50,19 @@ export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
               ?.filter((face) => face.image?.png)
               ?.map((face) => face.image?.png)
               ?.filter((png) => png !== image)
-              ?.map((png) => (
+              ?.map((png, index) => (
                 <motion.img
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
+                  initial={{
+                    opacity: 0,
+                    x: facesDirection === 'right' ? '-100%' : '100%',
+                  }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{
+                    delay: 0.5 * index,
+                    type: 'spring',
+                    bounce: 0.2,
+                    duration: 0.6,
+                  }}
                   className="w-full z-10"
                   key={png}
                   src={png}

@@ -1,7 +1,7 @@
+import CardList from '@/Components/CardList';
 import CardSearchPanel from '@/Components/CardSearchPanel';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import DashboardCardList from './Partials/DashboardCardList';
 
 export default function Show({
   cards,
@@ -16,7 +16,7 @@ export default function Show({
     <AuthenticatedLayout header="Dashboard">
       <Head title="Dashboard" />
       <CardSearchPanel query={query} sets={sets} disabled={false} />
-      <DashboardCardList cards={cards} />
+      <CardList cards={cards} />
     </AuthenticatedLayout>
   );
 }
