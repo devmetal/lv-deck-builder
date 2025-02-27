@@ -17,8 +17,6 @@ class ScryRepository
             return null;
         }
 
-        $body = $response->json();
-
-        return ScryCard::validateAndCreate($body);
+        return ScryCard::validateAndCreate($response->json());
     }
 }

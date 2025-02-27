@@ -19,7 +19,7 @@ class ProcessImportedCard implements ShouldQueue
      * Create a new job instance.
      */
     public function __construct(
-        public string $cardIdOnScryApi,
+        public string $externalCardId,
         public User $user,
     ) {
         //
@@ -33,7 +33,7 @@ class ProcessImportedCard implements ShouldQueue
         ScryResponseToCardModelMapper $cardMapper
     ): void {
         // read raw card data from repository
-        $scryCard = $repository->getCardByScryId($this->cardIdOnScryApi);
+        $scryCard = $repository->getCardByScryId($this->externalCardId);
 
         // map card data to model
         $cardModel = $cardMapper->mapScryCardToCardModel($scryCard);
@@ -51,7 +51,7 @@ class ProcessImportedCard implements ShouldQueue
             $cardModel->save();
 
             // when response has images
-            if (! is_null($scryCard->image_uris)) {
+            if (is_null($scryCard->image_uris) == false) {
                 $cardModel->image()->firstOrCreate(
                     ['png' => $scryCard->image_uris->png],
                     [
