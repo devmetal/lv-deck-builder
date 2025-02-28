@@ -2,12 +2,14 @@
 
 namespace App\Http\Requests;
 
+use App\Exceptions\CsvRequestException;
 use App\Facades\UploadedCsvParserFacade;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Collection;
 use Illuminate\Validation\Rules\File;
+use Illuminate\Validation\ValidationException;
 
 class CsvFileImportRequest extends FormRequest
 {
@@ -25,11 +27,18 @@ class CsvFileImportRequest extends FormRequest
 
     /**
      * @throws FileNotFoundException
+     * @throws ValidationException
      */
     public function getScryIdsFromFile(): Collection
     {
         $csv = $this->file('file')->get();
 
-        return UploadedCsvParserFacade::getScryIds($csv);
+        try {
+            return UploadedCsvParserFacade::getScryIds($csv);
+        } catch (CsvRequestException $ex) {
+            throw ValidationException::withMessages([
+                'file' => $ex->getMessage(),
+            ]);
+        }
     }
 }
