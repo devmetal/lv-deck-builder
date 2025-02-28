@@ -10,7 +10,7 @@ export default function Edit({
   status,
 }: PageProps<{ mustVerifyEmail: boolean; status?: string }>) {
   return (
-    <AuthenticatedLayout header={<h2>Profile</h2>}>
+    <AuthenticatedLayout header="Profile">
       <Head title="Profile" />
 
       <div>

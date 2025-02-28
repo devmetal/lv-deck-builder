@@ -2,7 +2,6 @@ import { type PropsWithChildren } from 'react';
 import Navigation from './Partials/Navigation';
 
 export default function Authenticated({
-  header,
   children,
 }: PropsWithChildren<{ header?: string }>) {
   //const user = usePage<PageProps>().props.auth.user;

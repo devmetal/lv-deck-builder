@@ -2,6 +2,7 @@ import { fixupConfigRules } from '@eslint/compat';
 import { FlatCompat } from '@eslint/eslintrc';
 import js from '@eslint/js';
 import tsParser from '@typescript-eslint/parser';
+import reactCompiler from 'eslint-plugin-react-compiler';
 import globals from 'globals';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -42,10 +43,15 @@ export default [
             },
         },
 
+        plugins: {
+            'react-compiler': reactCompiler,
+        },
+
         rules: {
             'react/react-in-jsx-scope': 'off',
             'react/prop-types': 'off',
             'react/no-unescaped-entities': 'off',
+            'react-compiler/react-compiler': 'error',
         },
     },
 ];

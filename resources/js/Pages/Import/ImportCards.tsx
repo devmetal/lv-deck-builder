@@ -16,7 +16,7 @@ export default function ImportCards() {
   };
 
   return (
-    <Authenticated header={<h2>Upload a CSV file</h2>}>
+    <Authenticated header="Upload a CSV file">
       <Head title="Import cards" />
 
       <p>The csv file must have a column name scry_id</p>
