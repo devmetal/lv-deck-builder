@@ -33,6 +33,6 @@ class UploadedCsvParserService
 
         return collect($lines)
             ->map(fn ($row) => $header->combine(str_getcsv($row, ',', '"', '\\')))
-            ->map(fn ($row) => $row['scry_id']);
+            ->map(fn ($row) => $row[$scryIdKey]);
     }
 }

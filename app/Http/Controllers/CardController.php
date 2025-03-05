@@ -28,20 +28,20 @@ class CardController extends Controller
                 });
             })
             ->when($query->colors, function (Builder $builder, $colors) {
-                if (in_array('C', $colors)) {
-                    $builder->whereJsonLength('colors', '=', 0);
-                } else {
-                    $builder
-                        ->whereJsonLength('colors', '=', count($colors))
-                        ->whereJsonContains('colors', $colors);
+                $qColors = $colors;
+                if (in_array('C', $qColors)) {
+                    $qColors = [];
                 }
+
+                $builder
+                    ->whereJsonLength('colors', '=', count($qColors))
+                    ->whereJsonContains('colors', $qColors);
             })
             ->when($query->setId, function (Builder $builder, string $setId) {
                 $builder->where('set_id', $setId);
             })
             ->withMaxPrice('cardmarket')
             ->with('image')
-            ->with('faces')
             ->with('faces.image')
             ->get();
 

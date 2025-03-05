@@ -1,14 +1,11 @@
 <?php
 
-namespace Tests\Job;
+declare(strict_types=1);
 
-use App\Jobs\ProcessImportedCard;
-use App\Models\Card;
 use App\Models\User;
 use App\Services\CardImporterService;
 use App\Services\External\Scry\ScryCardReader;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Http;
 use PHPUnit\Framework\Attributes\TestWith;
 use Tests\TestCase;
 
@@ -16,7 +13,7 @@ function read_fixture($fixture)
 {
     $path = implode(
         DIRECTORY_SEPARATOR,
-        [__DIR__, '..', '..', 'Fixtures', $fixture]
+        [__DIR__, '..', 'Fixtures', $fixture]
     );
 
     $file = file_get_contents($path);
@@ -24,7 +21,7 @@ function read_fixture($fixture)
     return json_decode($file, true);
 }
 
-class ProcessImportedCardTest extends TestCase
+class CardImporterServiceTest extends TestCase
 {
     use RefreshDatabase;
 
@@ -34,7 +31,7 @@ class ProcessImportedCardTest extends TestCase
     #[TestWith(['smoky.json'])]
     #[TestWith(['signet.json'])]
     #[TestWith(['multi.json'])]
-    public function test_it_should_import_cards_from_scry_by_id($fixture)
+    public function test_it_can_import_cards($fixture): void
     {
         $scryCard = read_fixture($fixture);
 
@@ -42,15 +39,13 @@ class ProcessImportedCardTest extends TestCase
             'api.scryfall.com/cards/1' => Http::response($scryCard, 200),
         ]);
 
+        $importer = new CardImporterService(
+            new ScryCardReader
+        );
+
         $user = User::factory()->create();
 
-        $job = new ProcessImportedCard('1', $user);
-
-        $job->handle(
-            new CardImporterService(
-                new ScryCardReader
-            )
-        );
+        $importer->importExternalCardToUser('1', $user->id);
 
         // card added to the database
         $this->assertDatabaseHas('cards', [
