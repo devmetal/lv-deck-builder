@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Services\External\Scry;
 
-use App\Entities\Card;
+use App\Services\External\Entities\Card;
 use App\Services\External\ExternalCardReader;
 use App\Services\External\Scry\Dto\ScryCard;
 use Illuminate\Support\Facades\Http;

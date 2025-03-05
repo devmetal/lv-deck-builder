@@ -3,7 +3,7 @@
 namespace App\Http\Requests;
 
 use App\Exceptions\CsvRequestException;
-use App\Facades\UploadedCsvParserFacade;
+use App\Services\UploadedCsvParserService;
 use Illuminate\Contracts\Filesystem\FileNotFoundException;
 use Illuminate\Contracts\Validation\ValidationRule;
 use Illuminate\Foundation\Http\FormRequest;
@@ -13,6 +13,10 @@ use Illuminate\Validation\ValidationException;
 
 class CsvFileImportRequest extends FormRequest
 {
+    public function __construct(
+        private UploadedCsvParserService $csvParser
+    ) {}
+
     /**
      * Get the validation rules that apply to the request.
      *
@@ -34,7 +38,7 @@ class CsvFileImportRequest extends FormRequest
         $csv = $this->file('file')->get();
 
         try {
-            return UploadedCsvParserFacade::getScryIds($csv);
+            return $this->csvParser->getScryIds($csv);
         } catch (CsvRequestException $ex) {
             throw ValidationException::withMessages([
                 'file' => $ex->getMessage(),

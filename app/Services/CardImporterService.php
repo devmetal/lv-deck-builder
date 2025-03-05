@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Entities\Card as CardEntity;
-use App\Entities\Face as FaceEntity;
-use App\Entities\Images as ImagesEntity;
 use App\Models\Card as CardModel;
 use App\Models\Face as FaceModel;
 use App\Models\Image as ImageModel;
 use App\Models\User;
+use App\Services\External\Entities\Card as CardEntity;
+use App\Services\External\Entities\Face as FaceEntity;
+use App\Services\External\Entities\Images as ImagesEntity;
 use App\Services\External\ExternalCardReader;
 use Illuminate\Support\Facades\DB;
 
