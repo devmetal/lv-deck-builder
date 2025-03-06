@@ -19,11 +19,11 @@ trait DownloadCommand
 
         $downloader
             ->onStart(function () use (&$bar) {
-                Log::channel('job')->info('Download started');
+                Log::channel('command')->info('Download started');
                 $bar->start();
             })
             ->onFinish(function () use (&$bar) {
-                Log::channel('job')->info(implode(',', [
+                Log::channel('command')->info(implode(',', [
                     $this->remoteUrl.' ===> '.$this->finalName,
                     'Job finished',
                 ]));
@@ -32,7 +32,7 @@ trait DownloadCommand
             ->onProgress(function (int $readed, int $size) use (&$bar) {
                 $percent = intval(floor(($readed / $size) * 100));
 
-                Log::channel('job')->info(implode(', ', [
+                Log::channel('command')->info(implode(', ', [
                     floor($readed / 1024 / 1024).'MB',
                     $this->remoteUrl.' ===> '.$this->finalName,
                     $percent.'%',
@@ -51,9 +51,9 @@ trait DownloadCommand
         } catch (Throwable $err) {
             $this->error('Command failed');
 
-            Log::channel('job')->error('Job failed');
+            Log::channel('command')->error('Job failed');
 
-            Log::channel('job')->error($err);
+            Log::channel('command')->error($err);
 
             $bar->finish();
 

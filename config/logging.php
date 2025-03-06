@@ -131,6 +131,11 @@ return [
             'driver' => 'single',
             'path' => storage_path('logs/jobs.log'),
         ],
+
+        'command' => [
+            'driver' => 'single',
+            'path' => storage_path('logs/commands.log'),
+        ],
     ],
 
 ];
