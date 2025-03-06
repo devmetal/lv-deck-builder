@@ -39,6 +39,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property bool|null $isAlternative
  * @property bool|null $isFullArt
  * @property bool|null $isFunny
+ * @property bool|null $isGameChanger
  * @property bool|null $isOnlineOnly
  * @property bool|null $isOversized
  * @property bool|null $isPromo
@@ -120,6 +121,7 @@ use Illuminate\Database\Eloquent\Model;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsAlternative($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsFullArt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsFunny($value)
+ * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsGameChanger($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsOnlineOnly($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsOversized($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|MtgJsonCard whereIsPromo($value)

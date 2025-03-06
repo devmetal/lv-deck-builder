@@ -12,6 +12,8 @@ use Illuminate\Database\Query\JoinClause;
 use Illuminate\Support\Facades\DB;
 
 /**
+ * 
+ *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -34,7 +36,6 @@ use Illuminate\Support\Facades\DB;
  * @property-read int|null $prices_count
  * @property-read \App\Models\Set $set
  * @property-read \App\Models\User $user
- *
  * @method static \Database\Factories\CardFactory factory($count = null, $state = [])
  * @method static Builder<static>|Card newModelQuery()
  * @method static Builder<static>|Card newQuery()
@@ -53,7 +54,6 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder<static>|Card whereUpdatedAt($value)
  * @method static Builder<static>|Card whereUserId($value)
  * @method static Builder<static>|Card withMaxPrice(string $provider)
- *
  * @mixin \Eloquent
  */
 class Card extends Model
