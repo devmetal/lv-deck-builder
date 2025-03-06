@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\CardImporterService;
+use App\Services\CardSearchService;
 use App\Services\External\DownloadSqliteFileService;
 use App\Services\External\ExternalCardReader;
 use App\Services\External\Scry\ScryCardReader;
@@ -32,6 +33,10 @@ class AppServiceProvider extends ServiceProvider
 
         $this->app->singleton(DownloadSqliteFileService::class, function () {
             return new DownloadSqliteFileService;
+        });
+
+        $this->app->singleton(CardSearchService::class, function () {
+            return new CardSearchService;
         });
     }
 
