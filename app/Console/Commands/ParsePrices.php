@@ -40,7 +40,7 @@ class ParsePrices extends Command
         $bar = $this->output->createProgressBar($count);
 
         MtgJsonCardIdentifiers::whereNotNull('scryfallId')
-            ->chunkById(250, function (Collection $ids) use (&$bar) {
+            ->chunkById(500, function (Collection $ids) use (&$bar) {
                 $pricesToday = $ids
                     ->map(fn ($id) => $this->getPriceTodayById($id))
                     ->filter(fn ($model) => ! is_null($model))
