@@ -12,7 +12,7 @@ class DownloadAllPricesTodaySqliteFile extends Command
 
     private string $finalName = 'AllPricesToday.sqlite';
 
-    private string $remoteUrl = 'https://mtgjson.com/api/v5/AllPricesToday.sql';
+    private string $remoteUrl = 'https://mtgjson.com/api/v5/AllPricesToday.sqlite';
 
     /**
      * The name and signature of the console command.

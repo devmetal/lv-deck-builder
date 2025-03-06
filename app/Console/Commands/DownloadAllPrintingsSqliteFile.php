@@ -12,7 +12,7 @@ class DownloadAllPrintingsSqliteFile extends Command
 
     private string $finalName = 'AllPrintings.sqlite';
 
-    private string $remoteUrl = 'https://mtgjson.com/api/v5/AllPrintings.sql';
+    private string $remoteUrl = 'https://mtgjson.com/api/v5/AllPrintings.sqlite';
 
     /**
      * The name and signature of the console command.
