@@ -120,11 +120,9 @@ class Card extends Model
     public function scopeWithMaxPrice(Builder $query, string $provider): void
     {
         $prices = DB::table('prices')
-            ->select('scry_id', 'source_date', DB::raw('MAX(price) as max_price'))
+            ->select('scry_id', DB::raw('MAX(price) as max_price'))
             ->where('provider', $provider)
-            ->where('source_date', DB::table('prices')->max('source_date'))
-            ->groupBy('scry_id', 'source_date')
-            ->orderBy('source_date', 'desc');
+            ->groupBy('scry_id');
 
         $query
             ->joinSub($prices, 'P', function (JoinClause $join) {
