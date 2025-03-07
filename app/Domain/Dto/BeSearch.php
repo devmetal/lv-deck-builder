@@ -2,20 +2,27 @@
 
 namespace App\Domain\Dto;
 
+use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\In;
+use Spatie\LaravelData\Attributes\Validation\IntegerType;
+use Spatie\LaravelData\Attributes\Validation\Max;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
 class BeSearch extends Data
 {
+    #[Max(128)]
     public ?string $term;
 
-    public ?string $setId;
+    #[IntegerType]
+    #[Max(9999)]
+    public ?int $setId;
 
+    #[Enum(Rarity::class)]
     public ?string $rarity;
 
     /** @var ?array<string> */
-    #[In(['W', 'B', 'G', 'U', 'C', 'R'])]
+    #[Max(5), In(['W', 'B', 'G', 'U', 'C', 'R'])]
     public ?array $colors;
 }

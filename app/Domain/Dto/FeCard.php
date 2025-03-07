@@ -3,6 +3,7 @@
 namespace App\Domain\Dto;
 
 use Spatie\LaravelData\Attributes\MapInputName;
+use Spatie\LaravelData\Attributes\Validation\In;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -20,4 +21,10 @@ class FeCard extends Data
      * @var array<FeCardFace>
      */
     public ?array $faces;
+
+    public string $name;
+
+    /** @var ?array<string> */
+    #[In(['W', 'B', 'G', 'U', 'C', 'R'])]
+    public ?array $colors;
 }

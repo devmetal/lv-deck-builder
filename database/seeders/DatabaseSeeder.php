@@ -40,6 +40,11 @@ class DatabaseSeeder extends Seeder
                 ...$sets->map(fn ($set) => ['set_id' => $set])->toArray()
             ))
             ->state(new Sequence(
+                ['rarity' => 'common'],
+                ['rarity' => 'uncommon'],
+                ['rarity' => 'rare'],
+            ))
+            ->state(new Sequence(
                 ['colors' => []],
                 ['colors' => ['R', 'G', 'U']],
                 ['colors' => ['R', 'G']],

@@ -37,11 +37,9 @@ class DashboardTest extends TestCase
             )
             ->create();
 
-        $response = $this
+        $this
             ->actingAs($user)
-            ->get('/dashboard');
-
-        $response
+            ->get('/dashboard')
             ->assertStatus(200)
             ->assertInertia(function (Assert $page) use (&$sets, &$cards) {
                 $page->component('Dashboard/Show')
