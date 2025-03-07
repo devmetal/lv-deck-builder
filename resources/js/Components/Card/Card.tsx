@@ -1,16 +1,18 @@
 import { motion } from 'motion/react';
 import { PointerEventHandler, useState } from 'react';
+import Faces from './Faces';
 
 export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
-  const [facesVisible, setFacesVisible] = useState(false);
-  const [facesDirection, setFacesDirection] = useState<'left' | 'right'>(
-    'right',
+  const [facesVisible, setFacesVisible] = useState<false | 'left' | 'right'>(
+    false,
   );
 
-  const { faces } = card;
+  const image = card.image?.png ?? card.faces?.[0]?.image?.png ?? null;
 
-  // get the main image, if its not avaiable switch to first face
-  const image = card.image?.png ?? faces?.[0]?.image?.png ?? null;
+  const faces = card.faces
+    ?.map((face) => face.image?.png)
+    ?.filter((png): png is string => !!png?.length)
+    ?.filter((png) => png !== image);
 
   const showFaces: PointerEventHandler = (e) => {
     const { currentTarget } = e;
@@ -18,12 +20,10 @@ export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
     const { x } = currentTarget.getBoundingClientRect();
 
     if (x > window.innerWidth / 2) {
-      setFacesDirection('left');
+      setFacesVisible('left');
     } else {
-      setFacesDirection('right');
+      setFacesVisible('right');
     }
-
-    setFacesVisible(true);
   };
 
   const hideFaces = () => {
@@ -39,37 +39,12 @@ export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
       <motion.div
         whileHover={{ scale: 1.2, rotate: 2, zIndex: 1 }}
         whileTap={{ scale: 1.2, rotate: 2, zIndex: 1 }}
-        className={`flex ${facesDirection === 'right' ? 'flex-row' : 'flex-row-reverse'}`}
+        className={`flex ${facesVisible === 'right' ? 'flex-row' : 'flex-row-reverse'}`}
         onPointerLeave={hideFaces}
         onPointerEnter={showFaces}
       >
         <img src={image} className="w-full" />
-        {facesVisible && (
-          <>
-            {faces
-              ?.filter((face) => face.image?.png)
-              ?.map((face) => face.image?.png)
-              ?.filter((png) => png !== image)
-              ?.map((png, index) => (
-                <motion.img
-                  initial={{
-                    opacity: 0,
-                    x: facesDirection === 'right' ? '-100%' : '100%',
-                  }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{
-                    delay: 0.5 * index,
-                    type: 'spring',
-                    bounce: 0.2,
-                    duration: 0.6,
-                  }}
-                  className="w-full z-10"
-                  key={png}
-                  src={png}
-                />
-              ))}
-          </>
-        )}
+        {facesVisible && <Faces faces={faces ?? []} dir={facesVisible} />}
       </motion.div>
 
       <div className="badge">{card.price} USD</div>
