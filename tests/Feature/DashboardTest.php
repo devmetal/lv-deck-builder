@@ -9,6 +9,7 @@ use App\Models\Set;
 use App\Models\User;
 use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Inertia\Testing\AssertableInertia as Assert;
 use Tests\TestCase;
 
 class DashboardTest extends TestCase
@@ -20,11 +21,13 @@ class DashboardTest extends TestCase
         /** @var Authenticatable */
         $user = User::factory()->create();
 
+        $sets = Set::factory()->for($user)->create();
+
         $cards = Card::factory()
-            ->count(20)
+            ->count(5)
             ->for($user)
             ->for(Image::factory())
-            ->for(Set::factory()->for($user))
+            ->for($sets)
             ->has(
                 Price::factory()
                     ->count(1)
@@ -38,8 +41,17 @@ class DashboardTest extends TestCase
             ->actingAs($user)
             ->get('/dashboard');
 
-        $response->assertStatus(200);
-
-        // check the props has the cards with prices
+        $response
+            ->assertStatus(200)
+            ->assertInertia(function (Assert $page) use (&$sets, &$cards) {
+                $page->component('Dashboard/Show')
+                    ->has('cards', 5)
+                    ->where('cards.0.image.png', $cards[0]->image->png)
+                    ->where('cards.1.image.png', $cards[1]->image->png)
+                    ->where('cards.2.image.png', $cards[2]->image->png)
+                    ->where('cards.3.image.png', $cards[3]->image->png)
+                    ->where('cards.4.image.png', $cards[4]->image->png)
+                    ->has('sets', $sets->count());
+            });
     }
 }

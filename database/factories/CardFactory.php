@@ -29,7 +29,7 @@ class CardFactory extends Factory
                 'mythic',
             ]),
             'colors' => fake()->randomElements(
-                ['r', 'g', 'u', 'c', 'w', 'b'], 2
+                ['R', 'G', 'U', 'W', 'B'], 2
             ),
         ];
     }
