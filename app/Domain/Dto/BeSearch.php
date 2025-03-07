@@ -4,8 +4,8 @@ namespace App\Domain\Dto;
 
 use Spatie\LaravelData\Attributes\Validation\Enum;
 use Spatie\LaravelData\Attributes\Validation\In;
-use Spatie\LaravelData\Attributes\Validation\IntegerType;
 use Spatie\LaravelData\Attributes\Validation\Max;
+use Spatie\LaravelData\Attributes\Validation\Numeric;
 use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
@@ -15,9 +15,9 @@ class BeSearch extends Data
     #[Max(128)]
     public ?string $term;
 
-    #[IntegerType]
+    #[Numeric]
     #[Max(9999)]
-    public ?int $setId;
+    public ?string $setId;
 
     #[Enum(Rarity::class)]
     public ?string $rarity;

@@ -14,7 +14,7 @@ class CardSearchService
     /**
      * @return Collection<\App\Models\Card>
      */
-    public function search(User $user, BeSearch $query): Collection
+    public function search(User $user, BeSearch $query): \Illuminate\Contracts\Database\Eloquent\Builder
     {
         $term = $query->term;
         $setId = $query->setId;
@@ -28,8 +28,7 @@ class CardSearchService
             ->when($rarity, $this->addRarityFilterToQuery(...))
             ->withMaxPrice('cardmarket')
             ->with('faces.image')
-            ->with('image')
-            ->get();
+            ->with('image');
     }
 
     private function addFullTextSearchToQuery(Builder $builder, string $term): void

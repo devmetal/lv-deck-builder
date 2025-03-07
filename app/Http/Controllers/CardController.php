@@ -6,6 +6,7 @@ namespace App\Http\Controllers;
 
 use App\Domain\Dto\BeSearch;
 use App\Domain\Dto\FeCard;
+use App\Domain\Dto\FeCardPagination;
 use App\Services\CardSearchService;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -24,11 +25,14 @@ class CardController extends Controller
         $query = BeSearch::from($req);
 
         $cards = $this->cardSearchService
-            ->search($user, $query);
+            ->search($user, $query)
+            ->paginate(16)
+            ->appends($_GET);
 
         return Inertia::render('Cards/List', [
             'query' => fn () => $query,
-            'cards' => fn () => FeCard::collect($cards),
+            'cards' => fn () => FeCard::collect($cards->items()),
+            'pagination' => fn () => FeCardPagination::from($cards),
             'sets' => fn () => Inertia::defer(
                 fn () => $user->sets()->get(['id', 'name'])
             ),
