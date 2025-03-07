@@ -39,6 +39,7 @@ class ScryCardReader implements ExternalCardReader
             'set_id' => $dto->set_id,
             'set_name' => $dto->set_name,
             'scry_id' => $dto->id,
+            'rarity' => $dto->rarity->value,
             'images' => ! is_null($dto->image_uris) ? [
                 'png' => $dto->image_uris->png,
                 'art' => $dto->image_uris->art_crop,

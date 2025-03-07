@@ -69,6 +69,7 @@ class CardImporterService
             'oracle_text' => $entity->oracle_text,
             'cmc' => $entity->cmc,
             'type_line' => $entity->type_line,
+            'rarity' => $entity->rarity,
         ]);
     }
 

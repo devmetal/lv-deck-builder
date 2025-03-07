@@ -33,5 +33,7 @@ class Card extends Data
         public readonly string $set_name,
 
         public readonly string $scry_id,
+
+        public readonly string $rarity,
     ) {}
 }

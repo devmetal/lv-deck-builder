@@ -22,6 +22,12 @@ class CardFactory extends Factory
             'cmc' => fake()->randomDigit(),
             'type_line' => fake()->word(),
             'keywords' => fake()->words(),
+            'rarity' => fake()->randomElement([
+                'common',
+                'uncommon',
+                'rare',
+                'mythic',
+            ]),
             'colors' => fake()->randomElements(
                 ['r', 'g', 'u', 'c', 'w', 'b'], 2
             ),

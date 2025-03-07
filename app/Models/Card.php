@@ -27,6 +27,7 @@ use Illuminate\Support\Facades\DB;
  * @property int $user_id
  * @property int $set_id
  * @property int|null $image_id
+ * @property string $rarity
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Deck> $decks
  * @property-read int|null $decks_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Face> $faces
@@ -48,6 +49,7 @@ use Illuminate\Support\Facades\DB;
  * @method static Builder<static>|Card whereKeywords($value)
  * @method static Builder<static>|Card whereName($value)
  * @method static Builder<static>|Card whereOracleText($value)
+ * @method static Builder<static>|Card whereRarity($value)
  * @method static Builder<static>|Card whereScryId($value)
  * @method static Builder<static>|Card whereSetId($value)
  * @method static Builder<static>|Card whereTypeLine($value)
@@ -70,6 +72,7 @@ class Card extends Model
         'cmc',
         'type_line',
         'set_id',
+        'rarity',
     ];
 
     protected $casts = [
