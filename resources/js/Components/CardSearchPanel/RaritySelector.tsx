@@ -16,13 +16,13 @@ export default function RaritySelector({
         onRarityChange(value);
       }}
     >
-      <option>-- Choose --</option>
-      <option>common</option>
-      <option>uncommon</option>
-      <option>rare</option>
-      <option>mythic</option>
-      <option>special</option>
-      <option>bonus</option>
+      <option value="">-- Choose --</option>
+      <option value="common">common</option>
+      <option value="uncommon">uncommon</option>
+      <option value="rare">rare</option>
+      <option value="mythic">mythic</option>
+      <option value="special">special</option>
+      <option value="bonus">bonus</option>
     </select>
   );
 }
