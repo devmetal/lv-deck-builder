@@ -32,7 +32,7 @@ export default function CardSearch({
     e.preventDefault();
 
     get(route('card.list'), {
-      only: ['cards', 'query', 'pagination'],
+      only: ['query', 'cards'],
     });
   };
 

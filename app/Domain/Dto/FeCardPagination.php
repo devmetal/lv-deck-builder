@@ -25,5 +25,8 @@ class FeCardPagination extends Data
 
         /** @var array<FeCardPaginationLink> */
         public readonly array $links,
+
+        /** @var array<FeCard> */
+        public readonly array $data,
     ) {}
 }

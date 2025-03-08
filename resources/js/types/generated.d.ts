@@ -32,6 +32,7 @@ last_page_url: string;
 next_page_url: string | null;
 prev_page_url: string | null;
 links: Array<App.Domain.Dto.FeCardPaginationLink>;
+data: Array<App.Domain.Dto.FeCard>;
 };
 export type FeCardPaginationLink = {
 url: string | null;

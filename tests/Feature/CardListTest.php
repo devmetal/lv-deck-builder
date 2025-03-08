@@ -44,7 +44,7 @@ class CardListTest extends TestCase
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Cards/List')
-                ->has('cards.0', fn (Assert $page) => $page
+                ->has('cards.data.0', fn (Assert $page) => $page
                     ->where('name', 'Test')
                     ->has('image.png')
                     ->has('id')
@@ -72,7 +72,7 @@ class CardListTest extends TestCase
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Cards/List')
-                ->has('cards.0', fn (Assert $page) => $page
+                ->has('cards.data.0', fn (Assert $page) => $page
                     ->where('colors', $colors)
                     ->etc()
                 )
@@ -93,7 +93,7 @@ class CardListTest extends TestCase
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Cards/List')
-                ->has('cards.0', fn (Assert $page) => $page
+                ->has('cards.data.0', fn (Assert $page) => $page
                     ->where('colors', [])
                     ->etc()
                 )
@@ -116,7 +116,7 @@ class CardListTest extends TestCase
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Cards/List')
-                ->has('cards.0', fn (Assert $page) => $page
+                ->has('cards.data.0', fn (Assert $page) => $page
                     ->has('image.png')
                     ->has('id')
                     ->has('faces')
@@ -141,7 +141,7 @@ class CardListTest extends TestCase
             ->assertStatus(200)
             ->assertInertia(fn (Assert $page) => $page
                 ->component('Cards/List')
-                ->has('cards.0', fn (Assert $page) => $page
+                ->has('cards.data.0', fn (Assert $page) => $page
                     ->has('image.png')
                     ->has('id')
                     ->has('faces')

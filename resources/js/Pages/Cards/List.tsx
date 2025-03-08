@@ -5,24 +5,21 @@ import CardList from './Partials/CardList';
 import Pagination from './Partials/Pagination';
 
 export default function List({
-  cards,
   sets,
   query,
-  pagination,
+  cards,
 }: {
-  cards: App.Domain.Dto.FeCard[];
   sets: App.Domain.Dto.FeSet[];
   query?: App.Domain.Dto.BeSearch;
-  pagination: App.Domain.Dto.FeCardPagination;
+  cards: App.Domain.Dto.FeCardPagination;
 }) {
   return (
     <AuthenticatedLayout header="Cards">
       <Head title="Cards" />
       <CardSearchPanel query={query} sets={sets} disabled={false} />
-      <CardList cards={cards} />
-      {(pagination.prev_page_url !== null ||
-        pagination.next_page_url !== null) && (
-        <Pagination pagination={pagination} />
+      <CardList cards={cards.data} />
+      {(cards.prev_page_url !== null || cards.next_page_url !== null) && (
+        <Pagination links={cards.links} />
       )}
     </AuthenticatedLayout>
   );
