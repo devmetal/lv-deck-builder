@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Services\External;
 
 use App\Exceptions\DownloadJobException;
@@ -13,21 +15,21 @@ class DownloadSqliteFileService
 
     private ?Closure $onFinishedHandler;
 
-    public function onStart(Closure $closure)
+    public function onStart(Closure $closure): self
     {
         $this->onStartedHandler = $closure;
 
         return $this;
     }
 
-    public function onProgress(Closure $closure)
+    public function onProgress(Closure $closure): self
     {
         $this->onProgressHandler = $closure;
 
         return $this;
     }
 
-    public function onFinish(Closure $closure)
+    public function onFinish(Closure $closure): self
     {
         $this->onFinishedHandler = $closure;
 
@@ -46,7 +48,6 @@ class DownloadSqliteFileService
         string $finalName,
         string $remoteUrl
     ): void {
-
         $this->started();
 
         // open a socket for the server get download start
@@ -54,7 +55,7 @@ class DownloadSqliteFileService
         $remoteSize = $this->curlGetFileSize($remoteUrl);
 
         if ($remoteFile === false) {
-            throw new DownloadJobException('Cannot open the remote file: '.$remoteUrl);
+            throw DownloadJobException::cannotOpen($remoteUrl);
         }
 
         // open a local file for store the binary data
@@ -62,7 +63,7 @@ class DownloadSqliteFileService
         $localFile = fopen($localPath, 'wb');
 
         if ($localFile === false) {
-            throw new DownloadJobException('Cannot open the local file: '.$localPath);
+            throw DownloadJobException::cannotOpen($localPath);
         }
 
         $chunkSize = 8192; // 8kb
@@ -78,18 +79,18 @@ class DownloadSqliteFileService
                 fclose($remoteFile);
                 fclose($localFile);
 
-                throw new DownloadJobException('Error while reading the remote file: '.$remoteUrl);
+                throw DownloadJobException::readError($remoteUrl);
             }
 
             if (fwrite($localFile, $content) === false) {
                 fclose($remoteFile);
                 fclose($localFile);
 
-                throw new DownloadJobException('Error while writing the local file: '.$localPath);
+                throw DownloadJobException::writeError($localPath);
             }
 
             $bytesReaded += $chunkSize;
-            if (++$chunksReaded % $logInEvery === 0) {
+            if ($chunksReaded++ % $logInEvery === 0) {
                 $this->progress($bytesReaded, $remoteSize);
             }
         }
@@ -101,11 +102,11 @@ class DownloadSqliteFileService
         // delete the old file and replace it with a new one
         $targetPath = database_path($finalName);
         if (file_exists($targetPath) && unlink($targetPath) === false) {
-            throw new DownloadJobException('Cannot delete local file: '.$localPath);
+            throw DownloadJobException::cannotDelete($localPath);
         }
 
         if (rename($localPath, $targetPath) === false) {
-            throw new DownloadJobException('Cannot rename local file: '.$localPath);
+            throw DownloadJobException::cannotRename($localPath);
         }
 
         $this->finished();
@@ -121,7 +122,7 @@ class DownloadSqliteFileService
      *             The size of the file referenced by $url, or -1 if the size
      *             could not be determined.
      */
-    private function curlGetFileSize($url)
+    private function curlGetFileSize($url): int
     {
         $ch = curl_init($url);
 
@@ -137,7 +138,7 @@ class DownloadSqliteFileService
         return $size;
     }
 
-    private function started()
+    private function started(): void
     {
         $handler = $this->onStartedHandler;
         if (! is_null($handler)) {
@@ -145,7 +146,7 @@ class DownloadSqliteFileService
         }
     }
 
-    private function finished()
+    private function finished(): void
     {
         $handler = $this->onFinishedHandler;
         if (! is_null($handler)) {
@@ -153,7 +154,7 @@ class DownloadSqliteFileService
         }
     }
 
-    private function progress(int $bytesReaded, int $fileSize)
+    private function progress(int $bytesReaded, int $fileSize): void
     {
         $handler = $this->onProgressHandler;
         if (! is_null($handler)) {
