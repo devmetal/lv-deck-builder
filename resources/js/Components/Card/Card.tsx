@@ -1,5 +1,6 @@
 import { motion } from 'motion/react';
 import { PointerEventHandler, useState } from 'react';
+import LazyImage from '../LazyImage/LazyImage';
 import Faces from './Faces';
 
 export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
@@ -39,11 +40,11 @@ export default function Card({ card }: { card: App.Domain.Dto.FeCard }) {
       <motion.div
         whileHover={{ scale: 1.2, rotate: 2, zIndex: 1 }}
         whileTap={{ scale: 1.2, rotate: 2, zIndex: 1 }}
-        className={`flex ${facesVisible === 'right' ? 'flex-row' : 'flex-row-reverse'}`}
+        className={`w-full flex ${facesVisible === 'right' ? 'flex-row' : 'flex-row-reverse'}`}
         onPointerLeave={hideFaces}
         onPointerEnter={showFaces}
       >
-        <img src={image} className="w-full" />
+        <LazyImage src={image} />
         {facesVisible && <Faces faces={faces ?? []} dir={facesVisible} />}
       </motion.div>
 
