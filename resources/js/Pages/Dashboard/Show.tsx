@@ -15,7 +15,13 @@ export default function Show({
   return (
     <AuthenticatedLayout header="Dashboard">
       <Head title="Dashboard" />
-      <CardSearchPanel query={query} sets={sets} disabled={false} />
+      <CardSearchPanel
+        searchRoute={route('card.list')}
+        options={{ only: ['query', 'cards'] }}
+        query={query}
+        sets={sets}
+        disabled={false}
+      />
       <CardList cards={cards} />
     </AuthenticatedLayout>
   );

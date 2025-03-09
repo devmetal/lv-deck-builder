@@ -16,10 +16,14 @@ export default function CardSearch({
   disabled,
   sets,
   query,
+  searchRoute,
+  options,
 }: {
   disabled: boolean;
   sets: App.Domain.Dto.FeSet[];
   query?: App.Domain.Dto.BeSearch;
+  searchRoute: string;
+  options: { only: string[] };
 }) {
   const { data, setData, get } = useForm<FeSearch>({
     term: query?.term ?? '',
@@ -31,8 +35,8 @@ export default function CardSearch({
   const handleSearch: FormEventHandler = (e) => {
     e.preventDefault();
 
-    get(route('card.list'), {
-      only: ['query', 'cards'],
+    get(searchRoute, {
+      only: options.only,
     });
   };
 

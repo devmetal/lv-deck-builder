@@ -1,7 +1,7 @@
+import CardList from '@/Components/CardList';
 import CardSearchPanel from '@/Components/CardSearchPanel';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import CardList from './Partials/CardList';
 import Pagination from './Partials/Pagination';
 
 export default function List({
@@ -16,7 +16,13 @@ export default function List({
   return (
     <AuthenticatedLayout header="Cards">
       <Head title="Cards" />
-      <CardSearchPanel query={query} sets={sets} disabled={false} />
+      <CardSearchPanel
+        searchRoute={route('card.list')}
+        options={{ only: ['query', 'cards'] }}
+        query={query}
+        sets={sets}
+        disabled={false}
+      />
       <CardList cards={cards.data} />
       {(cards.prev_page_url !== null || cards.next_page_url !== null) && (
         <Pagination links={cards.links} />
