@@ -135,7 +135,7 @@ class DownloadSqliteFileService
 
         curl_close($ch);
 
-        return $size;
+        return (int) floor($size);
     }
 
     private function started(): void
