@@ -22,6 +22,12 @@ export default function Navigation() {
 
               <NavigationMenu.Item>
                 <NavigationMenu.Link asChild>
+                  <Link href={route('deck.list')}>Decks</Link>
+                </NavigationMenu.Link>
+              </NavigationMenu.Item>
+
+              <NavigationMenu.Item>
+                <NavigationMenu.Link asChild>
                   <Link href={route('profile.edit')}>Profile</Link>
                 </NavigationMenu.Link>
               </NavigationMenu.Item>
@@ -43,10 +49,16 @@ export default function Navigation() {
           </NavigationMenu.Content>
         </NavigationMenu.Item>
       </NavigationMenu.List>
-      <NavigationMenu.List className="hidden md:flex menu menu-horizontal px-1">
+      <NavigationMenu.List className="hidden md:flex menu menu-horizontal">
         <NavigationMenu.Item>
           <NavigationMenu.Link asChild>
             <Link href={route('dashboard')}>Collection</Link>
+          </NavigationMenu.Link>
+        </NavigationMenu.Item>
+
+        <NavigationMenu.Item>
+          <NavigationMenu.Link asChild>
+            <Link href={route('deck.list')}>Decks</Link>
           </NavigationMenu.Link>
         </NavigationMenu.Item>
 
