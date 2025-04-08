@@ -21,6 +21,8 @@ use Illuminate\Notifications\Notifiable;
  * @property \Illuminate\Support\Carbon|null $updated_at
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Card> $cards
  * @property-read int|null $cards_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Deck> $decks
+ * @property-read int|null $decks_count
  * @property-read \Illuminate\Notifications\DatabaseNotificationCollection<int, \Illuminate\Notifications\DatabaseNotification> $notifications
  * @property-read int|null $notifications_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Set> $sets
@@ -88,5 +90,11 @@ class User extends Authenticatable
     public function sets(): HasMany
     {
         return $this->hasMany(Set::class);
+    }
+
+    /** @return HasMany<Deck> */
+    public function decks(): HasMany
+    {
+        return $this->hasMany(Deck::class);
     }
 }
