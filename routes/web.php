@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeckController;
 use App\Http\Controllers\ImportCardsController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Foundation\Application;
@@ -29,6 +30,14 @@ Route::middleware('auth')->group(function () {
     Route::get('/dashboard', [DashboardController::class, 'show'])->name('dashboard');
 
     Route::get('/cards/list', [CardController::class, 'list'])->name('card.list');
+
+    Route::get('/decks', [DeckController::class, 'list'])->name('deck.list');
+
+    Route::post('/decks', [DeckController::class, 'create'])->name('deck.create');
+
+    Route::get('/decks/{id}/edit', [DeckController::class, 'edit'])
+        ->whereNumber('id')
+        ->name('deck.edit');
 });
 
 require __DIR__.'/auth.php';
