@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Domain\Dto\BeDeck;
+use App\Domain\Dto\FeDeck;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
@@ -13,7 +14,11 @@ class DeckController extends Controller
 {
     public function list(Request $req): Response
     {
-        return Inertia::render('Decks/DeckList');
+        $user = $req->user();
+
+        return Inertia::render('Decks/DeckList', [
+            'decks' => FeDeck::collect($user->decks()->get()),
+        ]);
     }
 
     public function create(Request $req): RedirectResponse

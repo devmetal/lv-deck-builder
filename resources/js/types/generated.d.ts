@@ -1,4 +1,10 @@
 declare namespace App.Domain.Dto {
+export type BeDeck = {
+name: string;
+note: string | null;
+cover: string | null;
+commander: boolean | null;
+};
 export type BeSearch = {
 term: string | null;
 setId: string | null;
@@ -14,12 +20,6 @@ name: string;
 colors: Array<string> | null;
 };
 export type Rarity = 'common' | 'uncommon' | 'rare' | 'special' | 'mythic' | 'bonus';
-export type BeDeck = {
-name: string;
-note: string | null;
-cover: string | null;
-commander: boolean | null;
-};
 export type FeCardFace = {
 id: number;
 name: string;
@@ -44,6 +44,13 @@ export type FeCardPaginationLink = {
 url: string | null;
 label: string;
 active: boolean;
+};
+export type FeDeck = {
+id: number;
+name: string;
+note: string | null;
+cover: string | null;
+commander: boolean;
 };
 export type FeSet = {
 id: number;
