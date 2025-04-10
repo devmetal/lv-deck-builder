@@ -25,6 +25,7 @@
         "autoprefixer": "^10.4.21",
         "axios": "^1.8.4",
         "babel-plugin-react-compiler": "19.0.0-beta-e993439-20250405",
+        "clsx": "^2.1.1",
         "concurrently": "^9.0.1",
         "daisyui": "5.0.16",
         "eslint": "^9.24.0",
