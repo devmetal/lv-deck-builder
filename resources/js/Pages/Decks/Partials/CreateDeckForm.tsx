@@ -1,9 +1,10 @@
 import { useForm } from '@inertiajs/react';
+import clsx from 'clsx';
 import { Form } from 'radix-ui';
 import { FormEventHandler } from 'react';
 
 export default function CreateDeckForm() {
-  const { data, setData, post, processing } = useForm({
+  const { data, setData, post, processing, errors } = useForm({
     name: '',
   });
 
@@ -25,7 +26,7 @@ export default function CreateDeckForm() {
             type="text"
             name="name"
             id="name"
-            className="input"
+            className={clsx('input', { 'input-error': errors.name })}
             placeholder="Name of your deck:"
             value={data.name}
             onChange={(e) => setData('name', e.currentTarget.value)}

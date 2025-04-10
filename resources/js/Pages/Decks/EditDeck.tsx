@@ -1,10 +1,11 @@
 import Authenticated from '@/Layouts/AuthenticatedLayout';
 import { useForm } from '@inertiajs/react';
+import clsx from 'clsx';
 import { Form } from 'radix-ui';
 import { FormEventHandler } from 'react';
 
 export default function EditDeck({ deck }: { deck: App.Domain.Dto.FeDeck }) {
-  const { data, setData, patch, processing } = useForm({
+  const { data, setData, patch, processing, errors } = useForm({
     name: deck.name,
     note: deck.note ?? '',
     commander: deck.commander ?? false,
@@ -29,7 +30,9 @@ export default function EditDeck({ deck }: { deck: App.Domain.Dto.FeDeck }) {
               </Form.Label>
               <Form.Control asChild>
                 <input
-                  className="input w-full"
+                  className={clsx('input w-full', {
+                    'input-error': errors.name,
+                  })}
                   type="text"
                   required
                   name="name"
@@ -38,6 +41,10 @@ export default function EditDeck({ deck }: { deck: App.Domain.Dto.FeDeck }) {
                   onChange={(e) => setData('name', e.currentTarget.value)}
                 />
               </Form.Control>
+              <Form.Message match="valueMissing">
+                Provide a new for your deck
+              </Form.Message>
+              {!!errors.name && <Form.Message>{errors.name}</Form.Message>}
             </Form.Field>
 
             <Form.Field className="space-y-1" name="note">
@@ -46,7 +53,9 @@ export default function EditDeck({ deck }: { deck: App.Domain.Dto.FeDeck }) {
               </Form.Label>
               <Form.Control asChild>
                 <textarea
-                  className="textarea h-12 w-full"
+                  className={clsx('textarea h-12 w-full', {
+                    'input-error': errors.note,
+                  })}
                   name="note"
                   id="note"
                   value={data.note}
