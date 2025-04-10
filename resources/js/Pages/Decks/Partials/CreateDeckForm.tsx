@@ -2,12 +2,8 @@ import { useForm } from '@inertiajs/react';
 import { Form } from 'radix-ui';
 import { FormEventHandler } from 'react';
 
-type FeDeck = {
-  name: string;
-};
-
 export default function CreateDeckForm() {
-  const { data, setData, post, processing } = useForm<FeDeck>({
+  const { data, setData, post, processing } = useForm({
     name: '',
   });
 
