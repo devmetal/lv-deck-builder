@@ -38,6 +38,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/decks/{id}/edit', [DeckController::class, 'edit'])
         ->whereNumber('id')
         ->name('deck.edit');
+
+    Route::patch('/decks/{id}', [DeckController::class, 'update'])
+        ->whereNumber('id')
+        ->name('deck.update');
 });
 
 require __DIR__.'/auth.php';

@@ -1,4 +1,5 @@
 import Authenticated from '@/Layouts/AuthenticatedLayout';
+import { Link } from '@inertiajs/react';
 import CreateDeckForm from './Partials/CreateDeckForm';
 import DeckBg from './Partials/DeckBg.webp';
 
@@ -15,15 +16,23 @@ export default function DeckList({
       <div className="p-7 flex gap-6">
         {decks.map((deck) => (
           <div
-            className="w-48 h-48 rounded-md shadow-md hover:shadow-2xl p-2 transition-shadow"
+            className="w-48 h-48 rounded-md shadow-md hover:shadow-2xl transition-shadow flex flex-col justify-between"
             style={{
               backgroundImage: `url(${DeckBg})`,
               backgroundSize: 'cover',
             }}
             key={deck.id}
           >
-            <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-sm font-semibold rounded-md">
+            <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-md font-semibold rounded-t-md">
               {deck.name}
+            </div>
+            <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-sm rounded-b-md">
+              <Link
+                className="underline"
+                href={route('deck.edit', { id: deck.id })}
+              >
+                Edit
+              </Link>
             </div>
           </div>
         ))}

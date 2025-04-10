@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Http\Controllers;
 
 use App\Domain\Dto\BeDeck;
@@ -38,7 +40,20 @@ class DeckController extends Controller
         $deck = $req->user()->decks()->where('id', $id)->first();
 
         return Inertia::render('Decks/EditDeck', [
-            'deck' => BeDeck::from($deck),
+            'deck' => FeDeck::from($deck),
         ]);
+    }
+
+    public function update(Request $req, int $id): RedirectResponse
+    {
+        /**
+         * @var \App\Models\Deck
+         */
+        $deck = $req->user()->decks()
+            ->find($id);
+
+        $deck->update(BeDeck::from($req)->all());
+
+        return Redirect::route('deck.list');
     }
 }
