@@ -37,7 +37,7 @@ class DeckController extends Controller
 
     public function edit(Request $req, int $id): Response
     {
-        $deck = $req->user()->decks()->where('id', $id)->first();
+        $deck = $req->user()->decks()->find($id);
 
         return Inertia::render('Decks/EditDeck', [
             'deck' => FeDeck::from($deck),
