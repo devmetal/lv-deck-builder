@@ -1,8 +1,8 @@
 import CardList from '@/Components/CardList';
+import Pagination from '@/Components/CardList/Pagination';
 import CardSearchPanel from '@/Components/CardSearchPanel';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout';
 import { Head } from '@inertiajs/react';
-import Pagination from './Partials/Pagination';
 
 export default function List({
   sets,
