@@ -52,6 +52,14 @@ note: string | null;
 cover: string | null;
 commander: boolean;
 };
+export type FeDeckCards = {
+cards: Array<App.Domain.Dto.FeCard>;
+id: number;
+name: string;
+note: string | null;
+cover: string | null;
+commander: boolean;
+};
 export type FeSet = {
 id: number;
 name: string;
