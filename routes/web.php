@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CardController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\DeckCardsController;
 use App\Http\Controllers\DeckController;
 use App\Http\Controllers\ImportCardsController;
 use App\Http\Controllers\ProfileController;
@@ -42,6 +43,10 @@ Route::middleware('auth')->group(function () {
     Route::patch('/decks/{id}', [DeckController::class, 'update'])
         ->whereNumber('id')
         ->name('deck.update');
+
+    Route::get('/decks/{id}/cards', [DeckCardsController::class, 'show'])
+        ->whereNumber('id')
+        ->name('deck.cards');
 });
 
 require __DIR__.'/auth.php';

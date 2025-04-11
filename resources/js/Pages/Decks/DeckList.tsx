@@ -24,7 +24,9 @@ export default function DeckList({
             key={deck.id}
           >
             <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-md font-semibold rounded-t-md">
-              {deck.name}
+              <Link href={route('deck.cards', { id: deck.id })}>
+                {deck.name}
+              </Link>
             </div>
             <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-sm rounded-b-md">
               <Link
