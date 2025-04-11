@@ -53,6 +53,7 @@ class Deck extends Model
         return $this->belongsTo(User::class);
     }
 
+    /** @return BelongsToMany<Card> */
     public function cards(): BelongsToMany
     {
         return $this->belongsToMany(Card::class);
