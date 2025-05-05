@@ -28,7 +28,12 @@ export default function Show({
         sets={sets}
         disabled={false}
       />
-      <CardList cards={cards.data} />
+      <CardList
+        cards={cards.data}
+        renderCardActions={(card) => (
+          <button className="w-full btn btn-accent">Add to deck</button>
+        )}
+      />
       {(cards.prev_page_url !== null || cards.next_page_url !== null) && (
         <Pagination links={cards.links} />
       )}
