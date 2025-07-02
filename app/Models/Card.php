@@ -28,8 +28,8 @@ use Illuminate\Support\Facades\DB;
  * @property int $set_id
  * @property int|null $image_id
  * @property string $rarity
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Deck> $decks
- * @property-read int|null $decks_count
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Category> $categories
+ * @property-read int|null $categories_count
  * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Face> $faces
  * @property-read int|null $faces_count
  * @property-read \App\Models\Image|null $image
@@ -96,12 +96,6 @@ class Card extends Model
         return $this->belongsTo(Image::class);
     }
 
-    /** @return BelongsToMany<Deck> */
-    public function decks(): BelongsToMany
-    {
-        return $this->belongsToMany(Deck::class);
-    }
-
     /** @return BelongsTo<Set> */
     public function set(): BelongsTo
     {
@@ -118,6 +112,12 @@ class Card extends Model
     public function prices(): HasMany
     {
         return $this->hasMany(Price::class, 'scry_id', 'scry_id');
+    }
+
+    /** @return BelongsToMany<Category> */
+    public function categories(): BelongsToMany
+    {
+        return $this->belongsToMany(Category::class, 'card_category', 'card_id', 'category_id');
     }
 
     public function scopeWithMaxPrice(Builder $query, string $provider): void

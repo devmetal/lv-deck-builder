@@ -5,9 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 
 /**
+ * 
+ *
  * @property int $id
  * @property \Illuminate\Support\Carbon|null $created_at
  * @property \Illuminate\Support\Carbon|null $updated_at
@@ -16,10 +18,9 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @property string|null $cover
  * @property bool $commander
  * @property int $user_id
- * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\Card> $cards
- * @property-read int|null $cards_count
  * @property-read \App\Models\User $user
- *
+ * @property-read \Illuminate\Database\Eloquent\Collection<int, \App\Models\View> $views
+ * @property-read int|null $views_count
  * @method static \Database\Factories\DeckFactory factory($count = null, $state = [])
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Deck newModelQuery()
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Deck newQuery()
@@ -32,7 +33,6 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Deck whereNote($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Deck whereUpdatedAt($value)
  * @method static \Illuminate\Database\Eloquent\Builder<static>|Deck whereUserId($value)
- *
  * @mixin \Eloquent
  */
 class Deck extends Model
@@ -53,9 +53,9 @@ class Deck extends Model
         return $this->belongsTo(User::class);
     }
 
-    /** @return BelongsToMany<Card> */
-    public function cards(): BelongsToMany
+    /** @return HasMany<View> */
+    public function views(): HasMany
     {
-        return $this->belongsToMany(Card::class);
+        return $this->hasMany(View::class);
     }
 }
