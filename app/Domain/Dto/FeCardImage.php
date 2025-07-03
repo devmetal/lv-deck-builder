@@ -8,9 +8,11 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 #[TypeScript]
 class FeCardImage extends Data
 {
-    public string $png;
+    public function __construct(
+        public readonly string $png,
 
-    public string $small;
+        public readonly string $small,
 
-    public string $large;
+        public readonly string $large,
+    ) {}
 }

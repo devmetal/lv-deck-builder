@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Domain\Dto;
 
+use Spatie\LaravelData\Data;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class FeDeckCards extends FeDeck
+class FeDeckCardPivot extends Data
 {
-    /**
-     * @var array<FeDeckCard>
-     */
-    public array $cards = [];
+    public int $column;
+
+    public int $row;
 }

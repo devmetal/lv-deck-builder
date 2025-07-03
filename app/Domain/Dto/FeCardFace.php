@@ -8,9 +8,11 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 #[TypeScript]
 class FeCardFace extends Data
 {
-    public int $id;
+    public function __construct(
+        public readonly int $id,
 
-    public string $name;
+        public readonly string $name,
 
-    public ?FeCardImage $image;
+        public readonly ?FeCardImage $image,
+    ) {}
 }

@@ -52,8 +52,21 @@ note: string | null;
 cover: string | null;
 commander: boolean;
 };
+export type FeDeckCard = {
+pivot: App.Domain.Dto.FeDeckCardPivot;
+id: number;
+image: App.Domain.Dto.FeCardImage | null;
+price: number | null;
+faces: Array<App.Domain.Dto.FeCardFace> | null;
+name: string;
+colors: Array<string> | null;
+};
+export type FeDeckCardPivot = {
+column: number;
+row: number;
+};
 export type FeDeckCards = {
-cards: Array<App.Domain.Dto.FeCard>;
+cards: Array<App.Domain.Dto.FeDeckCard>;
 id: number;
 name: string;
 note: string | null;

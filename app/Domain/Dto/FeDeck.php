@@ -10,13 +10,15 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 #[TypeScript]
 class FeDeck extends Data
 {
-    public int $id;
+    public function __construct(
+        public readonly int $id,
 
-    public string $name;
+        public readonly string $name,
 
-    public ?string $note;
+        public readonly ?string $note,
 
-    public ?string $cover;
+        public readonly ?string $cover,
 
-    public bool $commander;
+        public readonly bool $commander,
+    ) {}
 }

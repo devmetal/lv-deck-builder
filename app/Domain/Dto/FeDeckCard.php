@@ -7,10 +7,7 @@ namespace App\Domain\Dto;
 use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 
 #[TypeScript]
-class FeDeckCards extends FeDeck
+class FeDeckCard extends FeCard
 {
-    /**
-     * @var array<FeDeckCard>
-     */
-    public array $cards = [];
+    public FeDeckCardPivot $pivot;
 }

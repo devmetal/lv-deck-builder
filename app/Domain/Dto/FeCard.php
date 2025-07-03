@@ -10,21 +10,21 @@ use Spatie\TypeScriptTransformer\Attributes\TypeScript;
 #[TypeScript]
 class FeCard extends Data
 {
-    public int $id;
+    public function __construct(
+        public readonly int $id,
 
-    public ?FeCardImage $image;
+        public readonly ?FeCardImage $image,
 
-    #[MapInputName('max_price')]
-    public ?float $price;
+        #[MapInputName('max_price')]
+        public readonly ?float $price,
 
-    /**
-     * @var array<FeCardFace>
-     */
-    public ?array $faces;
+        /** @var array<FeCardFace> */
+        public readonly ?array $faces,
 
-    public string $name;
+        public readonly string $name,
 
-    /** @var ?array<string> */
-    #[In(['W', 'B', 'G', 'U', 'C', 'R'])]
-    public ?array $colors;
+        /** @var ?array<string> */
+        #[In(['W', 'B', 'G', 'U', 'C', 'R'])]
+        public readonly ?array $colors,
+    ) {}
 }
