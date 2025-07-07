@@ -24,14 +24,14 @@ export default function DeckList({
             key={deck.id}
           >
             <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-md font-semibold rounded-t-md">
-              <Link href={route('deck.cards', { id: deck.id })}>
+              <Link href={route('decks.show', { id: deck.id })}>
                 {deck.name}
               </Link>
             </div>
             <div className="w-full p-2 bg-white/10 backdrop-blur-[3px] text-sm rounded-b-md">
               <Link
                 className="underline"
-                href={route('deck.edit', { id: deck.id })}
+                href={route('decks.edit', { id: deck.id })}
               >
                 Edit
               </Link>

@@ -6,8 +6,11 @@ namespace App\Http\Controllers;
 
 use App\Domain\Dto\BeDeck;
 use App\Domain\Dto\FeDeck;
+use App\Domain\Dto\FeDeckView;
+use App\Models\Deck;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 use Inertia\Inertia;
 use Inertia\Response;
 use Redirect;
@@ -19,7 +22,14 @@ class DeckController extends Controller
         $user = $req->user();
 
         return Inertia::render('Decks/DeckList', [
-            'decks' => FeDeck::collect($user->decks()->get()),
+            'decks' => fn () => FeDeck::collect($user->decks()->get()),
+        ]);
+    }
+
+    public function show(Deck $deck): Response
+    {
+        return Inertia::render('Decks/Show', [
+
         ]);
     }
 
@@ -27,33 +37,50 @@ class DeckController extends Controller
     {
         $user = $req->user();
 
-        $deck = $user->decks()
-            ->create(BeDeck::from($req)->all());
+        $deck = DB::transaction(function () use (&$user, &$req) {
+            $deck = $user->decks()
+                ->create(BeDeck::from($req)->all());
 
-        return Redirect::route('deck.edit', [
-            'id' => $deck->id,
+            // create a default deck view
+            $view = $deck->views()->create([
+                'name' => 'Default',
+            ]);
+
+            // create some default categories
+            $view->categories()->createMany([
+                ['name' => 'Creatures'],
+                ['name' => 'Instants'],
+                ['name' => 'Sorceries'],
+                ['name' => 'Enchantments'],
+                ['name' => 'Artifacts'],
+                ['name' => 'Planeswalkers'],
+                ['name' => 'Lands'],
+                ['name' => 'Sideboard'],
+                ['name' => 'Other'],
+            ]);
+
+            return $deck;
+        });
+
+        return Redirect::route('decks.edit', [
+            'deck' => $deck->id,
         ]);
     }
 
-    public function edit(Request $req, int $id): Response
+    public function edit(Deck $deck): Response
     {
-        $deck = $req->user()->decks()->find($id);
-
         return Inertia::render('Decks/EditDeck', [
-            'deck' => FeDeck::from($deck),
+            'deck' => fn () => FeDeck::from($deck),
+            'views' => fn () => FeDeckView::collect(
+                $deck->views()->get()
+            ),
         ]);
     }
 
-    public function update(Request $req, int $id): RedirectResponse
+    public function update(Deck $deck, Request $req): RedirectResponse
     {
-        /**
-         * @var \App\Models\Deck
-         */
-        $deck = $req->user()->decks()
-            ->find($id);
-
         $deck->update(BeDeck::from($req)->all());
 
-        return Redirect::route('deck.list');
+        return Redirect::route('decks.list');
     }
 }

@@ -22,7 +22,7 @@ export default function Navigation() {
 
               <NavigationMenu.Item>
                 <NavigationMenu.Link asChild>
-                  <Link href={route('deck.list')}>Decks</Link>
+                  <Link href={route('decks.list')}>Decks</Link>
                 </NavigationMenu.Link>
               </NavigationMenu.Item>
 
@@ -58,7 +58,7 @@ export default function Navigation() {
 
         <NavigationMenu.Item>
           <NavigationMenu.Link asChild>
-            <Link href={route('deck.list')}>Decks</Link>
+            <Link href={route('decks.list')}>Decks</Link>
           </NavigationMenu.Link>
         </NavigationMenu.Item>
 

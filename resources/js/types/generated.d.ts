@@ -73,6 +73,11 @@ note: string | null;
 cover: string | null;
 commander: boolean;
 };
+export type FeDeckView = {
+id: number;
+name: string;
+description: string | null;
+};
 export type FeSet = {
 id: number;
 name: string;

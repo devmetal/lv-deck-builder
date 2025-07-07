@@ -11,7 +11,7 @@ export default function CreateDeckForm() {
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
 
-    post(route('deck.create'));
+    post(route('decks.create'));
   };
 
   return (
